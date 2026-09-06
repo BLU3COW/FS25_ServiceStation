@@ -1,0 +1,57 @@
+title: "[General]: | [Allgemeines]:"
+body:
+  - type: markdown
+    id: general
+    attributes:
+      value: |
+        Use this category for community discussion, compatibility checks, mod conflicts, and topics that are not yet a bug report. | Für reproduzierbare Fehler bitte ein Issue erstellen. Für unklare Fragen, Kompatibilität und Mod-Konflikte ist diese Kategorie passend.
+
+  - type: dropdown
+    id: topic_type
+    attributes:
+      label: Topic type | Thementyp
+      description: What kind of discussion is this? | Was ist das denn für eine Diskussion?
+      options:
+        - Compatibility / mod conflict | Kompatibilität / Mod-Konflikt
+        - General feedback | Allgemeines Feedback
+        - Documentation note | Hinweis zur Dokumentation
+        - Community discussion | Diskussion in der Community
+        - Other | Sonstiges
+    validations:
+      required: true
+
+  - type: input
+    id: mod_version
+    attributes:
+      label: ServiceStation - Version
+      description: Which version of the mod are you using? | Welche Version des Mods verwendest du?
+      placeholder: "Example: | Beispiel: 1.0.0.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context | Kontext
+      description: Describe the topic, compatibility question, or situation. | Beschreiben Sie das Thema, die Kompatibilitätsfrage oder die Situation.
+      placeholder: "What are you trying to do, and what should others know? | Was möchtest du erreichen, und was sollten andere wissen?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: affected_mods
+    attributes:
+      label: Related mods, vehicles, maps, or server setup | Zugehörige Mods, Fahrzeuge, Karten oder Serverkonfigurationen
+      description: List any other mods, vehicles, maps, or dedicated server details if compatibility is involved. | Führen Sie alle weiteren Mods, Fahrzeuge, Karten oder Angaben zu dedizierten Servern auf, sofern dies für die Kompatibilität relevant ist.
+      placeholder: "Example: map name, vehicle name, other script mods, dedicated server yes/no | Beispiel: Name der Karte, Name des Fahrzeugs, sonstige Skript-Modifikationen, dedizierter Server ja/nein"
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs_or_links
+    attributes:
+      label: Logs, screenshots, or links | Protokolle, Screenshots oder Links
+      description: Add screenshots, links, or relevant „log.txt" snippets if useful. | Fügen Sie gegebenenfalls Screenshots, Links oder relevante Ausschnitte aus der Datei „log.txt" hinzu.
+      render: text
+    validations:
+      required: false

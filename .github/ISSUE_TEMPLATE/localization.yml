@@ -1,0 +1,103 @@
+name: Translation / Übersetzung
+description: Report a translation issue or suggest improved localization text. | Melden Sie ein Übersetzungsproblem oder schlagen Sie eine Verbesserung des Textes vor.
+title: "[l10n]: "
+labels: ["localization | Lokalisierung"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve ServiceStation translation. | Danke, dass du bei den Übersetzungen von ServiceStation hilfst.
+
+  - type: dropdown
+    id: request_type
+    attributes:
+      label: Translation type | Übersetzungsart
+      description: What kind of translation change is this? | Um welche Art von Übersetzungsänderung handelt es sich hier?
+      options:
+        - Wrong translation | Falsche Übersetzung
+        - Missing translation | Fehlende Übersetzung
+        - Better wording | Bessere Formulierung
+        - Text is too long in-game | Der Text ist im Spiel zu lang
+        - New language request | Anfrage für eine neue Sprache
+        - Typo / spelling | Tippfehler / Rechtschreibfehler
+        - Other | Sonstiges
+    validations:
+      required: true
+
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language | Sprache
+      description: Which language file or language is affected? | Welche Sprache oder Sprachdatei ist davon betroffen?
+      options:
+        - de | German | Deustch
+        - en | English | Englisch
+        - fr | French | Französich
+        - New language | Neue Sprache
+        - Multiple languages | Mehrere Sprachen
+        - Other | Sonstiges
+    validations:
+      required: true
+
+  - type: input
+    id: l10n_key
+    attributes:
+      label: l10n key or screen | l10n-Schlüssel oder Bildschirm
+      description: If known, name the l10n key, menu entry, help text, mode, or in-game screen. | Falls bekannt, geben Sie bitte den L10n-Schlüssel, den Menüeintrag, den Hilfetext, den Modus oder den Bildschirm im Spiel an.
+      placeholder: "Example: configuration_ServiceStationMode, shop function text, menu entry ... | Beispiel: configuration_ServiceStationMode, Funktionstext im Shop, Menüeintrag …"
+    validations:
+      required: false
+
+  - type: textarea
+    id: current_text
+    attributes:
+      label: Current text | Aktueller Text
+      description: Paste the current text as it appears in-game or in the l10n file. | Füge den aktuellen Text so ein, wie er im Spiel oder in der l10n-Datei erscheint.
+      render: text
+    validations:
+      required: false
+
+  - type: textarea
+    id: proposed_text
+    attributes:
+      label: Proposed text | Vorgeschlagener Text
+      description: Paste the corrected or suggested translation. | Fügen Sie die korrigierte oder vorgeschlagene Übersetzung ein.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context | Kontext
+      description: Explain where the text appears and why the proposed wording is better. | Erläutern Sie, an welcher Stelle der Text erscheint und warum der vorgeschlagene Wortlaut besser ist.
+      placeholder: "This appears in ... and should mean ... | Das erscheint in … und sollte bedeuten, dass …"
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or references | Screenshots oder Quellenangaben
+      description: Attach screenshots or links if they help explain layout, meaning, or text length. | Fügen Sie Screenshots oder Links bei, wenn diese zur Verdeutlichung des Layouts, der Bedeutung oder der Textlänge beitragen.
+    validations:
+      required: false
+
+  - type: input
+    id: mod_version
+    attributes:
+      label: ServiceStation - Version
+      description: Which version of the mod are you using? | Welche Version des Mods verwendest du?
+      placeholder: "Example: | Beispiel: 1.0.0.0"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I checked that this text is still present in the latest available ServiceStation release. | Ich habe überprüft, ob dieser Text in der neuesten verfügbaren Version von ServiceStation noch vorhanden ist.
+          required: true
+        - label: I understand that short in-game labels may need to stay concise. | Mir ist klar, dass kurze Bezeichnungen im Spiel möglicherweise kurz und prägnant bleiben müssen.
+          required: true

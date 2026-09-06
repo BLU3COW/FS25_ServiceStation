@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="ServiceStation.i3d" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="GIANTS Editor 64bit" version="10.0.13"/>
+  </Asset>
+
+  <Files>
+    <File fileId="1" filename="$data/shared/warningStripes_diffuse.png"/>
+    <File fileId="2" filename="$data/shared/warningStripes_normal.png"/>
+    <File fileId="3" filename="$data/shared/warningStripes_specular.png"/>
+  </Files>
+
+
+  <Materials>
+    <Material name="lambert1" materialId="5" diffuseColor="0.494118 0.494118 0.494118 1">
+    </Material>
+    <Material name="warningStripes_mat" materialId="6">
+      <Texture fileId="1"/>
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="3"/>
+    </Material>
+  </Materials>
+
+
+  <Shapes externalShapesFile="ServiceStation.i3d.shapes">
+  </Shapes>
+
+  <Scene>
+    <TransformGroup name="ServiceStation" nodeId="10">
+      <TransformGroup name="ServiceCore" nodeId="11">
+        <TransformGroup name="warningStripeLeft" translation="0 0 -5.125" nodeId="12">
+          <Shape name="warningStripeLeft_0_5m" visibility="false" shapeId="10" clipDistance="100" nodeId="13" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeLeft_1m" visibility="false" shapeId="11" clipDistance="100" nodeId="14" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeLeft_2m" visibility="false" shapeId="12" clipDistance="100" nodeId="15" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeLeft_4m" visibility="false" shapeId="13" clipDistance="100" nodeId="16" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeLeft_6m" visibility="false" shapeId="14" clipDistance="100" nodeId="17" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeLeft_8m" visibility="false" shapeId="15" clipDistance="100" nodeId="18" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeLeft_10m" visibility="false" shapeId="16" clipDistance="100" nodeId="19" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeLeft_15m" visibility="false" shapeId="17" clipDistance="100" nodeId="20" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeLeft_20m" shapeId="18" clipDistance="100" nodeId="21" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeLeft_25m" visibility="false" shapeId="19" clipDistance="100" nodeId="22" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeLeft_30m" visibility="false" shapeId="20" clipDistance="100" nodeId="23" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeLeft_35m" visibility="false" shapeId="21" clipDistance="100" nodeId="24" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeLeft_40m" visibility="false" shapeId="22" clipDistance="100" nodeId="25" castsShadows="false" receiveShadows="true" materialIds="6"/>
+        </TransformGroup>
+        <TransformGroup name="warningStripeRight" translation="0 0 5.125" nodeId="26">
+          <Shape name="warningStripeRight_0_5m" visibility="false" shapeId="10" clipDistance="100" nodeId="27" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeRight_1m" visibility="false" shapeId="11" clipDistance="100" nodeId="28" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeRight_2m" visibility="false" shapeId="12" clipDistance="100" nodeId="29" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeRight_4m" visibility="false" shapeId="13" clipDistance="100" nodeId="30" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeRight_6m" visibility="false" shapeId="14" clipDistance="100" nodeId="31" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeRight_8m" visibility="false" shapeId="15" clipDistance="100" nodeId="32" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeRight_10m" visibility="false" shapeId="16" clipDistance="100" nodeId="33" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeRight_15m" visibility="false" shapeId="17" clipDistance="100" nodeId="34" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeRight_20m" shapeId="18" clipDistance="100" nodeId="35" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeRight_25m" visibility="false" shapeId="19" clipDistance="100" nodeId="36" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeRight_30m" visibility="false" shapeId="20" clipDistance="100" nodeId="37" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeRight_35m" visibility="false" shapeId="21" clipDistance="100" nodeId="38" castsShadows="false" receiveShadows="true" materialIds="6"/>
+          <Shape name="warningStripeRight_40m" visibility="false" shapeId="22" clipDistance="100" nodeId="39" castsShadows="false" receiveShadows="true" materialIds="6"/>
+        </TransformGroup>
+      </TransformGroup>
+      <TransformGroup name="clearAreas" nodeId="40">
+        <TransformGroup name="clearArea1Start" translation="10 0 -5.25" nodeId="41">
+          <TransformGroup name="clearArea1Width" translation="0 0 10.5" nodeId="42"/>
+          <TransformGroup name="clearArea1Height" translation="-20 0 0" nodeId="43"/>
+        </TransformGroup>
+      </TransformGroup>
+      <TransformGroup name="levelAreas" nodeId="44">
+        <TransformGroup name="levelArea1Start" translation="-10 0 -5.25" nodeId="45">
+          <TransformGroup name="levelArea1Width" translation="0 0 10.5" nodeId="46"/>
+          <TransformGroup name="levelArea1Height" translation="20 0 0" nodeId="47"/>
+        </TransformGroup>
+      </TransformGroup>
+      <TransformGroup name="testAreas" nodeId="48">
+        <TransformGroup name="testArea1Start" translation="10 0 -5.25" nodeId="49">
+          <TransformGroup name="testArea1End" translation="-20 6 10.5" nodeId="50"/>
+        </TransformGroup>
+      </TransformGroup>
+      <TransformGroup name="ServiceTriggerGroup" nodeId="51">
+        <Shape name="ServiceTrigger" scale="21 1 11.5" shapeId="2" static="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x10000" clipDistance="300" nodeId="52" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="5"/>
+      </TransformGroup>
+      <TransformGroup name="ServiceStationSelectionGroup" nodeId="53">
+        <Shape name="ServiceStationSelection" translation="0 0.01 0" scale="20 0.025 10.5" shapeId="2" kinematic="true" collisionFilterGroup="0x3e" collisionFilterMask="0x1" clipDistance="300" nodeId="54" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="5"/>
+      </TransformGroup>
+    </TransformGroup>
+  </Scene>
+
+</i3D>

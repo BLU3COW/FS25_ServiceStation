@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<placeable type="ServiceStation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../shared/xml/schema/placeable.xsd">
+    <storeData>
+        <name>ServiceStation</name>
+        <image>dds/store_ServiceStation.dds</image>
+        <price>45000</price>
+        <functions>
+            <function>$l10n_function_ServiceStation</function>
+        </functions>
+        <dailyUpkeep>50</dailyUpkeep>
+        <lifetime>1000</lifetime>
+        <rotation>0</rotation>
+        <brand>NONE</brand>
+        <species>PLACEABLE</species>
+        <category>placeableMisc</category>
+        <brush>
+            <type>placeable</type>
+            <category>buildings</category>
+            <tab>tools</tab>
+        </brush>
+        <canBeSold>true</canBeSold>
+        <showInStore>true</showInStore>
+    </storeData>
+
+    <base>
+        <filename>i3d/ServiceStation.i3d</filename>
+        <boughtWithFarmland>true</boughtWithFarmland>
+        <canBeRenamed>true</canBeRenamed>
+    </base>
+
+    <placement useRandomYRotation="false" useManualYRotation="true">
+        <testAreas>
+            <testArea startNode="testArea1Start" endNode="testArea1End" />
+        </testAreas>
+        <sounds>
+            <place template="smallImp" />
+        </sounds>
+    </placement>
+
+    <clearAreas>
+        <clearArea startNode="clearArea1Start" widthNode="clearArea1Width" heightNode="clearArea1Height"/>
+    </clearAreas>
+
+    <leveling requireLeveling="true" maxSmoothDistance="1" maxSlope="75" maxEdgeAngle="30">
+        <levelAreas>
+            <levelArea startNode="levelArea1Start" widthNode="levelArea1Width" heightNode="levelArea1Height" />
+        </levelAreas>
+    </leveling>
+
+    <indoorAreas />
+
+    <ai>
+        <updateAreas />
+    </ai>
+
+    <ServiceStation triggerNode="ServiceTrigger" selectionNode="ServiceStationSelection"
+                    stripeLeftNode="warningStripeLeft" stripeRightNode="warningStripeRight"
+                    clearAreaStartNode="clearArea1Start" clearAreaWidthNode="clearArea1Width" clearAreaHeightNode="clearArea1Height"
+                    levelAreaStartNode="levelArea1Start" levelAreaWidthNode="levelArea1Width" levelAreaHeightNode="levelArea1Height"
+                    testAreaStartNode="testArea1Start" testAreaEndNode="testArea1End"
+                    baseWashPrice="10" baseDieselLitersPerSecond="20" baseMethaneUnitsPerSecond="2" baseChargeUnitsPerSecond="0.015">
+
+    <ServiceStationModeConfigurations title="$l10n_configuration_ServiceStationMode">
+        <ServiceStationModeConfiguration name="Service" repair="true" repaint="true" saveId="service" />
+        <ServiceStationModeConfiguration name="Wash" wash="true" saveId="wash" />
+        <ServiceStationModeConfiguration name="Tank" diesel="true" electric="true" methane="true" saveId="tank" />
+        <ServiceStationModeConfiguration name="Full" wash="true" repair="true" repaint="true" diesel="true" electric="true" methane="true" isDefault="true" saveId="full" />
+    </ServiceStationModeConfigurations>
+
+    <ServiceStationWidthConfigurations title="$l10n_configuration_ServiceStationWidth">
+        <ServiceStationWidthConfiguration name="2 m" meters="2" saveId="2m" />
+        <ServiceStationWidthConfiguration name="3 m" meters="3" saveId="3m" />
+        <ServiceStationWidthConfiguration name="4 m" meters="4" saveId="4m" />
+        <ServiceStationWidthConfiguration name="5 m" meters="5" saveId="5m" />
+        <ServiceStationWidthConfiguration name="6 m" meters="6" saveId="6m" />
+        <ServiceStationWidthConfiguration name="7 m" meters="7" saveId="7m" />
+        <ServiceStationWidthConfiguration name="8 m" meters="8" saveId="8m" />
+        <ServiceStationWidthConfiguration name="9 m" meters="9" saveId="9m" />
+        <ServiceStationWidthConfiguration name="10 m" meters="10" isDefault="true" saveId="10m" />
+        <ServiceStationWidthConfiguration name="11 m" meters="11" saveId="11m" />
+        <ServiceStationWidthConfiguration name="12 m" meters="12" saveId="12m" />
+        <ServiceStationWidthConfiguration name="13 m" meters="13" saveId="13m" />
+        <ServiceStationWidthConfiguration name="14 m" meters="14" saveId="14m" />
+        <ServiceStationWidthConfiguration name="15 m" meters="15" saveId="15m" />
+        <ServiceStationWidthConfiguration name="16 m" meters="16" saveId="16m" />
+        <ServiceStationWidthConfiguration name="17 m" meters="17" saveId="17m" />
+        <ServiceStationWidthConfiguration name="18 m" meters="18" saveId="18m" />
+        <ServiceStationWidthConfiguration name="19 m" meters="19" saveId="19m" />
+        <ServiceStationWidthConfiguration name="20 m" meters="20" saveId="20m" />
+    </ServiceStationWidthConfigurations>
+
+    <ServiceStationLengthConfigurations title="$l10n_configuration_ServiceStationLength">
+        <ServiceStationLengthConfiguration name="0.5 m" meters="0.5" saveId="0_5m" />
+        <ServiceStationLengthConfiguration name="1 m" meters="1" saveId="1m" />
+        <ServiceStationLengthConfiguration name="2 m" meters="2" saveId="2m" />
+        <ServiceStationLengthConfiguration name="4 m" meters="4" saveId="4m" />
+        <ServiceStationLengthConfiguration name="6 m" meters="6" saveId="6m" />
+        <ServiceStationLengthConfiguration name="8 m" meters="8" saveId="8m" />
+        <ServiceStationLengthConfiguration name="10 m" meters="10" saveId="10m" />
+        <ServiceStationLengthConfiguration name="15 m" meters="15" saveId="15m" />
+        <ServiceStationLengthConfiguration name="20 m" meters="20" isDefault="true" saveId="20m" />
+        <ServiceStationLengthConfiguration name="25 m" meters="25" saveId="25m" />
+        <ServiceStationLengthConfiguration name="30 m" meters="30" saveId="30m" />
+        <ServiceStationLengthConfiguration name="35 m" meters="35" saveId="35m" />
+        <ServiceStationLengthConfiguration name="40 m" meters="40" saveId="40m" />
+    </ServiceStationLengthConfigurations>
+    </ServiceStation>
+
+    <i3dMappings>
+        <i3dMapping id="warningStripeLeft" node="0>0|0" />
+        <i3dMapping id="warningStripeRight" node="0>0|1" />
+        <i3dMapping id="clearArea1Start" node="0>1|0" />
+        <i3dMapping id="clearArea1Width" node="0>1|0|0" />
+        <i3dMapping id="clearArea1Height" node="0>1|0|1" />
+        <i3dMapping id="levelArea1Start" node="0>2|0" />
+        <i3dMapping id="levelArea1Width" node="0>2|0|0" />
+        <i3dMapping id="levelArea1Height" node="0>2|0|1" />
+        <i3dMapping id="testArea1Start" node="0>3|0" />
+        <i3dMapping id="testArea1End" node="0>3|0|0" />
+        <i3dMapping id="ServiceTrigger" node="0>4|0" />
+        <i3dMapping id="ServiceStationSelection" node="0>5|0" />
+    </i3dMappings>
+</placeable>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<modDesc descVersion="111">
+    <author>BLU3COW</author>
+    <version>1.0.0.0</version>
+
+    <title>
+        <en>ServiceStation</en>
+    </title>
+
+    <description>
+        <en><![CDATA[ServiceStation
+Category: Miscellaneous
+Price: $45,000
+Daily upkeep: $50
+
+Customizable ServiceStation for washing, repairs, painting, refueling, and charging. The size can be adjusted to fit your yard perfectly.
+
+Modes:
+- Full (Washing, repairs, painting, refueling, and charging)
+- Service (Repairs and painting)
+- Refuel (refueling and charging)
+- Wash (washing)
+
+Size:
+Width 2–20 meters
+Length 0.5–40 meters 
+
+The settings for price, minimum requirement, and fill rate (% and immediate) can be adjusted in modSettings. AutoDrive is supported.
+
+For help, to report issues, or to find the link to the latest version, visit the <a href="https://blu3cow.com">Website</a> or the <a href="https://github.com/BLU3COW/FS25_ServiceStation">Github</a>.]]></en>
+        <de><![CDATA[ServiceStation
+Shopkategorie: Diverses
+Preis: 45.000€
+Täglicher Unterhalt: 50€
+
+Einstellbare ServiceStation zum Waschen, Reparieren, Lackieren, Tanken und Laden. 
+
+Modus:
+- Full (Waschen, Reparieren, Lackieren, Tanken und Laden)
+- Service (Reparieren und Lackieren)
+- Tank (Tanken und Laden)
+- Wash (Waschen)
+
+Größe:
+Breite 2-20 Meter
+Länge 0,5-40 Meter 
+
+Die Einstellungen zum Preis, Mindestanforderung, Füllgeschwindigkeit (% und sofort) können in modSettings angepasst werden. AutoDrive wird unterstützt.
+Für Hilfe, Meldung von Problemen oder dem Link zur neusten Version besuchen sie <a href="https://blu3cow.com">Website</a> oder <a href="https://github.com/BLU3COW/FS25_ServiceStation">Github</a>.]]></de>
+        <fr><![CDATA[ServiceStation
+Catégorie: Divers
+Prix: 45 000€
+Entretien quotidien: 50€
+
+StationService modulable pour le lavage, les réparations, la peinture, le ravitaillement en carburant et la recharge.  Ses dimensions peuvent être adaptées pour s'intégrer parfaitement à votre cour.
+
+Modes :
+- Full (lavage, réparations, peinture, ravitaillement en carburant et recharge)
+- Service (réparations et peinture)
+- Tank (ravitaillement et recharge)
+- Wash (lavage)
+
+Dimensions :
+Largeur : 2 à 20 mètres
+Longueur : 0,5 à 40 mètres 
+
+Les paramètres relatifs au prix, aux exigences minimales et à la vitesse de remplissage (en % et immédiate) peuvent être ajustés dans modSettings. La fonction AutoDrive est prise en charge.
+
+Pour obtenir de l'aide, signaler des problèmes ou accéder au lien vers la dernière version, rendez-vous sur le <a href="https://blu3cow.com">site web</a> ou sur <a href="https://github.com/BLU3COW/FS25_ServiceStation">Github</a>.]]></fr>
+    </description>
+
+    <iconFilename>dds/icon_ServiceStation.dds</iconFilename>
+    <multiplayer supported="true" />
+    <l10n filenamePrefix="l10n/l10n" />
+
+    <extraSourceFiles>
+	    <sourceFile filename="lua/ServiceStation.lua" />
+        <sourceFile filename="lua/ServiceStation_AutoDrive.lua" />
+        <sourceFile filename="lua/ServiceStationRegister.lua" />
+    </extraSourceFiles>
+
+    <placeableTypes>
+        <type name="ServiceStation" parent="simplePlaceable" filename="$dataS/scripts/placeables/Placeable.lua">
+            <specialization name="FS25_ServiceStation" />
+        </type>
+    </placeableTypes>
+
+    <storeItems>
+        <storeItem xmlFilename="xml/ServiceStation.xml" />
+    </storeItems>
+</modDesc>

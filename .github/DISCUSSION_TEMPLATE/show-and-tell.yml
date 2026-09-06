@@ -1,0 +1,48 @@
+title: "[Show and tell]: | [Zeigen und erzählen]:"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Share ServiceStation setups, configuration examples, screenshots, tests, and player stories here. | Hier koennen Setups, Konfigurationsbeispiele, Screenshots, Tests und Erfahrungsberichte geteilt werden.
+
+  - type: textarea
+    id: showcase
+    attributes:
+      label: What are you sharing? | Was teilst du?
+      description: Describe your setup, test, configuration, or result. | Beschreiben Sie Ihre Umgebung, Ihren Test, Ihre Konfiguration oder Ihr Ergebnis.
+      placeholder: "I configured ... and it works well for ... | Ich habe … konfiguriert und es funktioniert gut für …"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Main area | Hauptbereich
+      description: Which area does your example relate to most? | Auf welchen Bereich bezieht sich Ihr Beispiel am ehesten?
+      options:
+        - Complete ServiceStation setup | Komplette ServiceStation-Einrichtung
+        - Mode configuration | Modus-Konfiguration
+        - Dimension configuration | Abmessungs-Konfiguration
+        - Dedicated server setup | Einrichtung eines dedizierten Servers
+        - Balancing example | Beispiel zur Ausbalancierung
+        - Screenshots / media | Screenshots / Medien
+        - Other | Sonstiges
+    validations:
+      required: true
+
+  - type: textarea
+    id: settings
+    attributes:
+      label: Relevant settings or values | Relevante Einstellungen oder Werte
+      description: Paste useful „FS25_ServiceStation.xml" values or describe the configuration. | Fügen Sie hier nützliche „FS25_ServiceStation.xml"-Werte ein oder beschreiben Sie die Konfiguration.
+      render: text
+    validations:
+      required: false
+
+  - type: textarea
+    id: media
+    attributes:
+      label: Screenshots, links, or notes | Screenshots, Links oder Notizen
+      description: Add screenshots, videos, links, or extra notes if useful. | Fügen Sie gegebenenfalls Screenshots, Videos, Links oder zusätzliche Anmerkungen hinzu.
+    validations:
+      required: false

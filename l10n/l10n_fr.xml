@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<l10n>
+    <texts>
+        <text name="function_ServiceStation" text="Station de service automatique" />
+        <text name="configuration_ServiceStationMode" text="Mode" />
+        <text name="configuration_ServiceStationWidth" text="Largeur" />
+        <text name="configuration_ServiceStationLength" text="Longueur" />
+    </texts>
+</l10n>

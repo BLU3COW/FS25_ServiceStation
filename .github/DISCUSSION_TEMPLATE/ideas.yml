@@ -1,0 +1,68 @@
+title: "[Idea]: | [Idee]:"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this category for early ideas, balancing thoughts, and possible new ServiceStation options. | Wenn daraus eine konkrete, umsetzbare Aufgabe wird, kann später ein Issue daraus entstehen.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Idea summary | Zusammenfassung der Idee
+      description: Give the idea a short, clear summary. | Fassen Sie die Idee kurz und prägnant zusammen.
+      placeholder: "Add an option to ... | Eine Option hinzufügen, um …"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area | Bereich
+      description: Which ServiceStation area does this affect? | Welchen Bereich betrifft diese Anfrage?
+      options:
+        - Mode - Full / Service / Tank / Wash
+        - Dimensions (Width / Length)
+        - Settings (Price / Wash / Fill / Charge / Cooldown / Farm access)
+        - AutoDrive integration
+        - New mode or configuration | Neuer Modus oder neue Konfiguration
+        - Core / trigger / placement | Kern / Trigger / Platzierung
+        - Documentation / release notes | Dokumentation / Versionshinweise
+        - Other | Sonstiges
+    validations:
+      required: true
+
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Use case | Anwendungsfall
+      description: What player situation should this improve? | Welche Spielersituation soll dadurch verbessert werden?
+      placeholder: "I want to ... because ... | Ich möchte …, weil …"
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_behavior
+    attributes:
+      label: Proposed behavior | Gewünschtes Verhalten
+      description: Describe how the feature or balancing change should work. | Beschreiben Sie, wie die Funktion oder die Änderung am Balancing funktionieren soll.
+    validations:
+      required: true
+
+  - type: textarea
+    id: balancing
+    attributes:
+      label: Balancing impact | Balance schaffen
+      description: If this changes prices, fill/charge speeds, or gameplay balance, describe the expected limits. | Falls sich dadurch Preise, Fill-/Ladegeschwindigkeiten oder die Spielbalance ändern, beschreiben Sie bitte die zu erwartenden Grenzen.
+      placeholder: "Example: Wash price should stay close to the vanilla car wash ... | Beispiel: Der Waschpreis sollte nah an der Vanilla-Waschanlage bleiben …"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing discussions and issues before posting this idea. | Bevor ich diesen Vorschlag gepostet habe, habe ich bereits nach bestehenden Diskussionen und Problemen gesucht.
+          required: true
+        - label: This idea fits the goal of ServiceStation. | Diese Idee entspricht dem Ziel von ServiceStation.
+          required: true

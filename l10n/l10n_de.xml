@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<l10n>
+    <texts>
+        <text name="function_ServiceStation" text="Automatische Durchfahrstation" />
+        <text name="configuration_ServiceStationMode" text="Modus" />
+        <text name="configuration_ServiceStationWidth" text="Breite" />
+        <text name="configuration_ServiceStationLength" text="Länge" />
+    </texts>
+</l10n>
