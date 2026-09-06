@@ -3,6 +3,8 @@
 
 
 
+<div align="center"><img width="400" alt="servicestation-logo" src="https://github.com/BLU3COW/FS25_ServiceStation/blob/main/.github/assets/logos/servicestation.png" /></div>
+
 # <div align="center"><img width="860" height="80" alt="servicestation-title" src="https://github.com/BLU3COW/FS25_ServiceStation/blob/main/.github/assets/badges/servicestation-title.svg" /></div>
 
 <div align="center">
@@ -28,7 +30,7 @@
 
 <div align="center">
 
-[WEBSITE](https://blu3cow.com) | [DISCORD](https://discord.gg/JdKvhdheU) | [DOWNLOAD](https://github.com/BLU3COW/FS25_ServiceStation/releases) | [README](README.md) |  [LICENSE](LICENSE) | [CHANGELOG](CHANGELOG.md) | [ISSUES](https://github.com/BLU3COW/FS25_ServiceStation/issues) | [DISCUSSIONS](https://github.com/BLU3COW/FS25_ServiceStation/discussions) | [PULLS](https://github.com/BLU3COW/FS25_ServiceStation/pulls) | [WIKI](https://github.com/BLU3COW/FS25_ServiceStation/wiki)
+[WEBSITE](https://blu3cow.com) | [DISCORD](https://discord.gg/JdKvhdheU) | [DOWNLOAD](https://github.com/BLU3COW/FS25_ServiceStation/releases) | [README](README.md) |  [LICENSE](LICENSE) | [ISSUES](https://github.com/BLU3COW/FS25_ServiceStation/issues) | [DISCUSSIONS](https://github.com/BLU3COW/FS25_ServiceStation/discussions) | [PULLS](https://github.com/BLU3COW/FS25_ServiceStation/pulls) | [WIKI](https://github.com/BLU3COW/FS25_ServiceStation/wiki)
 </div>
 
 
