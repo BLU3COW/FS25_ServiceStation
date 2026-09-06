@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<l10n>
+    <texts>
+        <text name="function_ServiceStation" text="Automatic drive-through station" />
+        <text name="configuration_ServiceStationMode" text="Mode" />
+        <text name="configuration_ServiceStationWidth" text="Width" />
+        <text name="configuration_ServiceStationLength" text="Length" />
+    </texts>
+</l10n>

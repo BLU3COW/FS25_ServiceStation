@@ -1,0 +1,79 @@
+name: Feature request / Vorschlag melden
+description: Suggest an improvement, balancing change, or new ServiceStation option. | Schlagen Sie eine Verbesserung, eine Anpassung der Balance oder eine neue ServiceStation-Option vor.
+title: "[Feature | Funktion]: "
+labels: ["enhancement | Verbesserung"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an improvement for ServiceStation. | Danke für deinen Vorschlag für ServiceStation.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary | Zusammenfassung
+      description: Give the request a short, clear summary. | Bitte fassen Sie die Anfrage kurz und verständlich zusammen.
+      placeholder: "Add an option to ... | Eine Option hinzufügen, um …"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case | Problem oder Anwendungsfall
+      description: What situation should this solve? | Welche Situation soll damit gelöst werden?
+      placeholder: "I want to ... but currently ... | Ich möchte …, aber im Moment …"
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_solution
+    attributes:
+      label: Proposed solution | Lösungsvorschlag
+      description: Describe the behavior or option you would like to see. | Beschreiben Sie das gewünschte Verhalten oder die gewünschte Option.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area | Bereich
+      description: Which area does this request affect? | Welchen Bereich betrifft diese Anfrage?
+      options:
+        - Mode - Full / Service / Tank / Wash
+        - Dimensions (Width / Length)
+        - Settings (Price / Wash / Fill / Charge / Cooldown / Farm access)
+        - AutoDrive integration
+        - New mode or configuration | Neuer Modus oder neue Konfiguration
+        - Core / trigger / placement | Kern / Trigger / Platzierung
+        - Documentation / release notes | Dokumentation / Versionshinweise
+        - Other | Sonstiges
+    validations:
+      required: true
+
+  - type: textarea
+    id: balancing
+    attributes:
+      label: Balancing notes | Anmerkungen zur Balance
+      description: If this changes prices, fill/charge speeds, or gameplay balance, explain the expected limits. | Falls sich dadurch Preise, Fill-/Ladegeschwindigkeiten oder die Spielbalance ändern, erläutern Sie bitte die zu erwartenden Grenzen.
+      placeholder: "Example: Wash price should stay close to the vanilla car wash ... | Beispiel: Der Waschpreis sollte nah an der Vanilla-Waschanlage bleiben …"
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered | In Betracht gezogene Alternativen
+      description: Are there workarounds or different designs you considered? | Gibt es Alternativen oder andere Entwürfe, die Sie in Betracht gezogen haben?
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues before opening this one. | Bevor ich dieses Ticket eröffnet habe, habe ich nach bereits bestehenden Tickets gesucht.
+          required: true
+        - label: This request fits the goal of ServiceStation and is not specific to only one private savegame setup. | Diese Anfrage entspricht dem Ziel von ServiceStation und bezieht sich nicht ausschließlich auf eine bestimmte private Spielstandskonfiguration.
+          required: true

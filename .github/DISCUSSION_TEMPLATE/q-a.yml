@@ -1,0 +1,66 @@
+title: "[Q&A]: | [Fragen und Antworten]:"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ask setup, installation, configuration, and gameplay questions here. | Für reproduzierbare Fehler bitte ein Bug-Issue erstellen. Für Fragen zur Nutzung ist diese Kategorie richtig.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Question | Frage
+      description: What do you need help with? | Wobei können wir Ihnen helfen?
+      placeholder: "How can I ... | Wie kann ich …"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area | Bereich
+      description: Which area does this request affect? | Welchen Bereich betrifft diese Anfrage?
+      options:
+        - Mode - Full / Service / Tank / Wash
+        - Dimensions (Width / Length)
+        - Settings (Price / Wash / Fill / Charge / Cooldown / Farm access)
+        - AutoDrive integration
+        - Core / trigger / placement | Kern / Trigger / Platzierung
+        - Documentation / release notes | Dokumentation / Versionshinweise
+        - Other | Sonstiges
+    validations:
+      required: false
+
+  - type: input
+    id: mod_version
+    attributes:
+      label: ServiceStation - Version
+      description: Which version of the mod are you using? | Welche Version des Mods verwendest du?
+      placeholder: "Example: | Beispiel: 1.0.0.0"
+    validations:
+      required: false
+
+  - type: input
+    id: game_version
+    attributes:
+      label: Farming Simulator 25 - Version
+      description: Which FS25 game version is installed? |Welche FS25 Spielversion ist installiert?
+      placeholder: "Example: | Beispiel: 1.14.0.0"
+    validations:
+      required: false
+
+  - type: textarea
+    id: tried
+    attributes:
+      label: What have you tried? | Was hast du schon versucht?
+      description: Mention settings, configurations, or docs you already checked. | Geben Sie Einstellungen, Konfigurationen oder Dokumente an, die Sie bereits geprüft haben.
+    validations:
+      required: false
+
+  - type: textarea
+    id: extra_context
+    attributes:
+      label: Extra context | Weitere Informationen
+      description: Add screenshots, log snippets, or related information if useful. | Fügen Sie gegebenenfalls Screenshots, Protokollausschnitte oder weitere relevante Informationen hinzu.
+      render: text
+    validations:
+      required: false

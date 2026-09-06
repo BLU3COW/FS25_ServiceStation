@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Website
+    url: https://www.blu3cow.com
+    about: Visit our website | Besuchen sie unsere Webseite
+  - name: Wiki
+    url: https://github.com/BLU3COW/FS25_ServiceStation/wiki
+    about: Find Solutions | Finden Sie Lösungen
+  - name: Latest release | Neueste Version
+    url: https://github.com/BLU3COW/FS25_ServiceStation/releases
+    about: Latest release | Neueste Version
