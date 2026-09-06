@@ -74,7 +74,7 @@ Wähle direkt im Baumodus vor dem Platzieren zwischen den Modi <strong>Full</str
 
 <div align="center">
 
-<em>Screenshots and a gameplay preview are coming soon. | Screenshots und eine Spielvorschau folgen in Kürze.</em>
+<img width="1600" height="900" alt="servicestation-gif" src=".github/assets/screenshots/servicestation-gif.gif" />
 
 </div>
 <br>
@@ -192,6 +192,8 @@ The <strong>„FS25_ServiceStation.xml"</strong> file is created automatically w
 </details>
 </div>
 
+<br>
+<img width="1600" height="900" alt="servicestation_modsettings" src=".github/assets/screenshots/servicestation_modsettings.png" />
 </details>
 
 <br>
@@ -278,6 +280,7 @@ Du kannst das Projekt auch aktiv unterstützen, indem du Wünsche, Ideen, Verbes
 
 <div align="center">
 
-<em>Screenshots will be added here once available. | Screenshots werden hier ergänzt, sobald sie verfügbar sind.</em>
+<img width="1600" height="900" alt="servicestation_001" src=".github/assets/screenshots/servicestation_001.png" />
+<img width="1600" height="900" alt="servicestation_002" src=".github/assets/screenshots/servicestation_002.png" />
 
 </div>
