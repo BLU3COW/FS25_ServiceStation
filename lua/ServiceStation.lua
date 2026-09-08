@@ -412,7 +412,7 @@ end
 
 function Service:ServiceStationCollectPickObjects(superFunc, node)
     local spec = self.spec_ServiceStation
-    if spec == nil or node ~= spec.triggerNode then
+    if spec == nil or (node ~= spec.triggerNode and node ~= spec.autoDriveTriggerNode) then
         superFunc(self, node)
     end
 end
