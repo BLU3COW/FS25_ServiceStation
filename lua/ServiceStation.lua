@@ -346,6 +346,7 @@ function Service:onLoad(savegame)
     local spec = self.spec_ServiceStation
 
     spec.triggerNode = getServiceStationNode(self, "triggerNode")
+    spec.autoDriveTriggerNode = getServiceStationNode(self, "autoDriveTriggerNode")
     spec.selectionNode = getServiceStationNode(self, "selectionNode")
     spec.stripeLeftNode = getServiceStationNode(self, "stripeLeftNode")
     spec.stripeRightNode = getServiceStationNode(self, "stripeRightNode")

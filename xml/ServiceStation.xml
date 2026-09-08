@@ -58,6 +58,7 @@
                     clearAreaStartNode="clearArea1Start" clearAreaWidthNode="clearArea1Width" clearAreaHeightNode="clearArea1Height"
                     levelAreaStartNode="levelArea1Start" levelAreaWidthNode="levelArea1Width" levelAreaHeightNode="levelArea1Height"
                     testAreaStartNode="testArea1Start" testAreaEndNode="testArea1End"
+                    autoDriveTriggerNode="ServiceStationAutoDriveTrigger"
                     baseWashPrice="10" baseDieselLitersPerSecond="20" baseMethaneUnitsPerSecond="2" baseChargeUnitsPerSecond="0.015">
 
     <ServiceStationModeConfigurations title="$l10n_configuration_ServiceStationMode">
@@ -119,5 +120,6 @@
         <i3dMapping id="testArea1End" node="0>3|0|0" />
         <i3dMapping id="ServiceTrigger" node="0>4|0" />
         <i3dMapping id="ServiceStationSelection" node="0>5|0" />
+        <i3dMapping id="ServiceStationAutoDriveTrigger" node="0>6|0" />
     </i3dMappings>
 </placeable>
