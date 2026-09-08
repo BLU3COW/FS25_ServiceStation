@@ -50,10 +50,7 @@ end
 function Service:ServiceStationSetupAutoDriveRefuelTrigger()
     local spec = self.spec_ServiceStation
     local triggerManager = getTriggerManager()
-    if spec == nil
-        or spec.autoDriveRefuelTrigger ~= nil
-        or spec.triggerNode == nil
-        or triggerManager == nil then
+    if spec == nil or spec.autoDriveRefuelTrigger ~= nil or spec.triggerNode == nil or triggerManager == nil then
         return
     end
 
@@ -77,26 +74,26 @@ function Service:ServiceStationSetupAutoDriveRefuelTrigger()
     end
 
     local refuelTrigger = {
-        triggerNode=spec.triggerNode,
-        fillTypes=fillTypes,
-        fillableObjects={},
-        effects={},
-        autoStart=true,
-        isLoading=false,
-        selectedFillType=nil,
-        ServiceStation=self,
-        onFillTypeSelection=onFillTypeSelection
+        triggerNode = spec.triggerNode,
+        fillTypes = fillTypes,
+        fillableObjects = {},
+        effects = {},
+        autoStart = true,
+        isLoading = false,
+        selectedFillType = nil,
+        ServiceStation = self,
+        onFillTypeSelection = onFillTypeSelection,
     }
     refuelTrigger.source = {
-        ServiceStation=self,
-        refuelTrigger=refuelTrigger,
-        getAllFillLevels=getAllFillLevels
+        ServiceStation = self,
+        refuelTrigger = refuelTrigger,
+        getAllFillLevels = getAllFillLevels,
     }
 
     spec.autoDriveRefuelTrigger = refuelTrigger
     spec.autoDriveTriggerManager = triggerManager
     spec.autoDrivePreviousLoadingStation = self.loadingStation
-    spec.autoDriveLoadingStation = {loadTriggers={refuelTrigger}}
+    spec.autoDriveLoadingStation = { loadTriggers = { refuelTrigger } }
     self.loadingStation = spec.autoDriveLoadingStation
 
     if g_currentMission ~= nil and g_currentMission.addNodeObject ~= nil then
@@ -119,9 +116,11 @@ function Service:ServiceStationDeleteAutoDriveRefuelTrigger()
         self.loadingStation = spec.autoDrivePreviousLoadingStation
     end
 
-    if spec.autoDriveTriggerNodeRegistered == true
+    if
+        spec.autoDriveTriggerNodeRegistered == true
         and g_currentMission ~= nil
-        and g_currentMission.removeNodeObject ~= nil then
+        and g_currentMission.removeNodeObject ~= nil
+    then
         g_currentMission:removeNodeObject(refuelTrigger.triggerNode)
     end
 
@@ -152,8 +151,7 @@ function Service:ServiceStationUpdateAutoDriveRefuelTrigger()
         refuelTrigger.fillableObjects[#refuelTrigger.fillableObjects + 1] = rootVehicle
     end
 
-    refuelTrigger.isLoading = refuelTrigger.selectedFillType ~= nil
-        and Service.ServiceStationHasPendingEnergy(spec)
+    refuelTrigger.isLoading = refuelTrigger.selectedFillType ~= nil and Service.ServiceStationHasPendingEnergy(spec)
     if not refuelTrigger.isLoading then
         refuelTrigger.selectedFillType = nil
     end

@@ -9,7 +9,7 @@ local ENERGY_UPDATE_INTERVAL_MS = 1000
 local FILL_EPSILON = 0.0001
 local DEFAULT_WIDTH_METERS = 10
 local DEFAULT_LENGTH_METERS = 20
-local STRIPE_LENGTHS_METERS = {0.5, 1, 2, 4, 6, 8, 10, 15, 20, 25, 30, 35, 40}
+local STRIPE_LENGTHS_METERS = { 0.5, 1, 2, 4, 6, 8, 10, 15, 20, 25, 30, 35, 40 }
 local STRIPE_WIDTH_METERS = 0.25
 local TRIGGER_MARGIN_METERS = 0.5
 local TRIGGER_MIN_LENGTH_METERS = 2
@@ -32,9 +32,11 @@ end
 
 local function setPhysicsNodeScale(node, scaleX, scaleY, scaleZ)
     local currentX, currentY, currentZ = getScale(node)
-    if math.abs(currentX - scaleX) <= SCALE_EPSILON
+    if
+        math.abs(currentX - scaleX) <= SCALE_EPSILON
         and math.abs(currentY - scaleY) <= SCALE_EPSILON
-        and math.abs(currentZ - scaleZ) <= SCALE_EPSILON then
+        and math.abs(currentZ - scaleZ) <= SCALE_EPSILON
+    then
         return
     end
 
@@ -56,48 +58,160 @@ end
 
 function Service.registerXMLPaths(schema, basePath)
     schema:setXMLSpecializationType("ServiceStation")
-    schema:register(XMLValueType.NODE_INDEX, basePath .. ".ServiceStation#triggerNode", "Automatic service trigger node")
-    schema:register(XMLValueType.NODE_INDEX, basePath .. ".ServiceStation#selectionNode", "Construction mode selection node")
+    schema:register(
+        XMLValueType.NODE_INDEX,
+        basePath .. ".ServiceStation#triggerNode",
+        "Automatic service trigger node"
+    )
+    schema:register(
+        XMLValueType.NODE_INDEX,
+        basePath .. ".ServiceStation#selectionNode",
+        "Construction mode selection node"
+    )
     schema:register(XMLValueType.NODE_INDEX, basePath .. ".ServiceStation#stripeLeftNode", "Left warning stripe node")
     schema:register(XMLValueType.NODE_INDEX, basePath .. ".ServiceStation#stripeRightNode", "Right warning stripe node")
     schema:register(XMLValueType.NODE_INDEX, basePath .. ".ServiceStation#clearAreaStartNode", "Clear area start node")
     schema:register(XMLValueType.NODE_INDEX, basePath .. ".ServiceStation#clearAreaWidthNode", "Clear area width node")
-    schema:register(XMLValueType.NODE_INDEX, basePath .. ".ServiceStation#clearAreaHeightNode", "Clear area height node")
+    schema:register(
+        XMLValueType.NODE_INDEX,
+        basePath .. ".ServiceStation#clearAreaHeightNode",
+        "Clear area height node"
+    )
     schema:register(XMLValueType.NODE_INDEX, basePath .. ".ServiceStation#levelAreaStartNode", "Level area start node")
     schema:register(XMLValueType.NODE_INDEX, basePath .. ".ServiceStation#levelAreaWidthNode", "Level area width node")
-    schema:register(XMLValueType.NODE_INDEX, basePath .. ".ServiceStation#levelAreaHeightNode", "Level area height node")
-    schema:register(XMLValueType.NODE_INDEX, basePath .. ".ServiceStation#testAreaStartNode", "Placement test area start node")
-    schema:register(XMLValueType.NODE_INDEX, basePath .. ".ServiceStation#testAreaEndNode", "Placement test area end node")
-    schema:register(XMLValueType.FLOAT, basePath .. ".ServiceStation#baseWashPrice", "Price for completely washing one dirty vehicle before the global price multiplier", 10)
-    schema:register(XMLValueType.FLOAT, basePath .. ".ServiceStation#baseDieselLitersPerSecond", "Base diesel fill speed before configuration multipliers", 20)
-    schema:register(XMLValueType.FLOAT, basePath .. ".ServiceStation#baseMethaneUnitsPerSecond", "Base methane fill speed before configuration multipliers", 2)
-    schema:register(XMLValueType.FLOAT, basePath .. ".ServiceStation#baseChargeUnitsPerSecond", "Base electric charge speed before configuration multipliers", 0.015)
+    schema:register(
+        XMLValueType.NODE_INDEX,
+        basePath .. ".ServiceStation#levelAreaHeightNode",
+        "Level area height node"
+    )
+    schema:register(
+        XMLValueType.NODE_INDEX,
+        basePath .. ".ServiceStation#testAreaStartNode",
+        "Placement test area start node"
+    )
+    schema:register(
+        XMLValueType.NODE_INDEX,
+        basePath .. ".ServiceStation#testAreaEndNode",
+        "Placement test area end node"
+    )
+    schema:register(
+        XMLValueType.FLOAT,
+        basePath .. ".ServiceStation#baseWashPrice",
+        "Price for completely washing one dirty vehicle before the global price multiplier",
+        10
+    )
+    schema:register(
+        XMLValueType.FLOAT,
+        basePath .. ".ServiceStation#baseDieselLitersPerSecond",
+        "Base diesel fill speed before configuration multipliers",
+        20
+    )
+    schema:register(
+        XMLValueType.FLOAT,
+        basePath .. ".ServiceStation#baseMethaneUnitsPerSecond",
+        "Base methane fill speed before configuration multipliers",
+        2
+    )
+    schema:register(
+        XMLValueType.FLOAT,
+        basePath .. ".ServiceStation#baseChargeUnitsPerSecond",
+        "Base electric charge speed before configuration multipliers",
+        0.015
+    )
     schema:setXMLSpecializationType()
 end
 
 function Service.registerFunctions(placeableType)
-    SpecializationUtil.registerFunction(placeableType, "ServiceStationTriggerCallback", Service.ServiceStationTriggerCallback)
-    SpecializationUtil.registerFunction(placeableType, "ServiceStationGetConfigurationItem", Service.ServiceStationGetConfigurationItem)
-    SpecializationUtil.registerFunction(placeableType, "ServiceStationLoadSelectedServiceOptions", Service.ServiceStationLoadSelectedServiceOptions)
-    SpecializationUtil.registerFunction(placeableType, "ServiceStationApplyDimensions", Service.ServiceStationApplyDimensions)
-    SpecializationUtil.registerFunction(placeableType, "ServiceStationGetRootVehicle", Service.ServiceStationGetRootVehicle)
-    SpecializationUtil.registerFunction(placeableType, "ServiceStationGetVehicleChain", Service.ServiceStationGetVehicleChain)
-    SpecializationUtil.registerFunction(placeableType, "ServiceStationGetVehicleFarmId", Service.ServiceStationGetVehicleFarmId)
-    SpecializationUtil.registerFunction(placeableType, "ServiceStationGetCanServiceVehicle", Service.ServiceStationGetCanServiceVehicle)
-    SpecializationUtil.registerFunction(placeableType, "ServiceStationSetupAutoDriveRefuelTrigger", Service.ServiceStationSetupAutoDriveRefuelTrigger)
-    SpecializationUtil.registerFunction(placeableType, "ServiceStationDeleteAutoDriveRefuelTrigger", Service.ServiceStationDeleteAutoDriveRefuelTrigger)
-    SpecializationUtil.registerFunction(placeableType, "ServiceStationUpdateAutoDriveRefuelTrigger", Service.ServiceStationUpdateAutoDriveRefuelTrigger)
-    SpecializationUtil.registerFunction(placeableType, "ServiceStationRefreshActiveRoots", Service.ServiceStationRefreshActiveRoots)
-    SpecializationUtil.registerFunction(placeableType, "ServiceStationProcessInstantChain", Service.ServiceStationProcessInstantChain)
-    SpecializationUtil.registerFunction(placeableType, "ServiceStationFillEnergyChain", Service.ServiceStationFillEnergyChain)
+    SpecializationUtil.registerFunction(
+        placeableType,
+        "ServiceStationTriggerCallback",
+        Service.ServiceStationTriggerCallback
+    )
+    SpecializationUtil.registerFunction(
+        placeableType,
+        "ServiceStationGetConfigurationItem",
+        Service.ServiceStationGetConfigurationItem
+    )
+    SpecializationUtil.registerFunction(
+        placeableType,
+        "ServiceStationLoadSelectedServiceOptions",
+        Service.ServiceStationLoadSelectedServiceOptions
+    )
+    SpecializationUtil.registerFunction(
+        placeableType,
+        "ServiceStationApplyDimensions",
+        Service.ServiceStationApplyDimensions
+    )
+    SpecializationUtil.registerFunction(
+        placeableType,
+        "ServiceStationGetRootVehicle",
+        Service.ServiceStationGetRootVehicle
+    )
+    SpecializationUtil.registerFunction(
+        placeableType,
+        "ServiceStationGetVehicleChain",
+        Service.ServiceStationGetVehicleChain
+    )
+    SpecializationUtil.registerFunction(
+        placeableType,
+        "ServiceStationGetVehicleFarmId",
+        Service.ServiceStationGetVehicleFarmId
+    )
+    SpecializationUtil.registerFunction(
+        placeableType,
+        "ServiceStationGetCanServiceVehicle",
+        Service.ServiceStationGetCanServiceVehicle
+    )
+    SpecializationUtil.registerFunction(
+        placeableType,
+        "ServiceStationSetupAutoDriveRefuelTrigger",
+        Service.ServiceStationSetupAutoDriveRefuelTrigger
+    )
+    SpecializationUtil.registerFunction(
+        placeableType,
+        "ServiceStationDeleteAutoDriveRefuelTrigger",
+        Service.ServiceStationDeleteAutoDriveRefuelTrigger
+    )
+    SpecializationUtil.registerFunction(
+        placeableType,
+        "ServiceStationUpdateAutoDriveRefuelTrigger",
+        Service.ServiceStationUpdateAutoDriveRefuelTrigger
+    )
+    SpecializationUtil.registerFunction(
+        placeableType,
+        "ServiceStationRefreshActiveRoots",
+        Service.ServiceStationRefreshActiveRoots
+    )
+    SpecializationUtil.registerFunction(
+        placeableType,
+        "ServiceStationProcessInstantChain",
+        Service.ServiceStationProcessInstantChain
+    )
+    SpecializationUtil.registerFunction(
+        placeableType,
+        "ServiceStationFillEnergyChain",
+        Service.ServiceStationFillEnergyChain
+    )
     SpecializationUtil.registerFunction(placeableType, "ServiceStationWashVehicle", Service.ServiceStationWashVehicle)
-    SpecializationUtil.registerFunction(placeableType, "ServiceStationRepairVehicle", Service.ServiceStationRepairVehicle)
-    SpecializationUtil.registerFunction(placeableType, "ServiceStationRepaintVehicle", Service.ServiceStationRepaintVehicle)
+    SpecializationUtil.registerFunction(
+        placeableType,
+        "ServiceStationRepairVehicle",
+        Service.ServiceStationRepairVehicle
+    )
+    SpecializationUtil.registerFunction(
+        placeableType,
+        "ServiceStationRepaintVehicle",
+        Service.ServiceStationRepaintVehicle
+    )
     SpecializationUtil.registerFunction(placeableType, "ServiceStationFillConsumer", Service.ServiceStationFillConsumer)
 end
 
 function Service.registerOverwrittenFunctions(placeableType)
-    SpecializationUtil.registerOverwrittenFunction(placeableType, "collectPickObjects", Service.ServiceStationCollectPickObjects)
+    SpecializationUtil.registerOverwrittenFunction(
+        placeableType,
+        "collectPickObjects",
+        Service.ServiceStationCollectPickObjects
+    )
 end
 
 function Service.registerEventListeners(placeableType)
@@ -244,16 +358,19 @@ function Service:onLoad(savegame)
     spec.testAreaStartNode = getServiceStationNode(self, "testAreaStartNode")
     spec.testAreaEndNode = getServiceStationNode(self, "testAreaEndNode")
 
-    spec.baseDieselLitersPerSecond = math.max(getXMLFloat(self.xmlFile.handle, BASE_KEY .. "#baseDieselLitersPerSecond") or 20, 0)
-    spec.baseMethaneUnitsPerSecond = math.max(getXMLFloat(self.xmlFile.handle, BASE_KEY .. "#baseMethaneUnitsPerSecond") or 2, 0)
-    spec.baseChargeUnitsPerSecond = math.max(getXMLFloat(self.xmlFile.handle, BASE_KEY .. "#baseChargeUnitsPerSecond") or 0.015, 0)
+    spec.baseDieselLitersPerSecond =
+        math.max(getXMLFloat(self.xmlFile.handle, BASE_KEY .. "#baseDieselLitersPerSecond") or 20, 0)
+    spec.baseMethaneUnitsPerSecond =
+        math.max(getXMLFloat(self.xmlFile.handle, BASE_KEY .. "#baseMethaneUnitsPerSecond") or 2, 0)
+    spec.baseChargeUnitsPerSecond =
+        math.max(getXMLFloat(self.xmlFile.handle, BASE_KEY .. "#baseChargeUnitsPerSecond") or 0.015, 0)
     spec.baseWashPrice = math.max(getXMLFloat(self.xmlFile.handle, BASE_KEY .. "#baseWashPrice") or 10, 0)
     spec.triggerNodeObjects = {}
     spec.triggerVehicles = {}
     spec.triggerSessionVehicles = {}
     spec.activeRoots = {}
     spec.activeRootHashes = {}
-    spec.lastServiceTimes = setmetatable({}, {__mode="k"})
+    spec.lastServiceTimes = setmetatable({}, { __mode = "k" })
     spec.fillCompletedRoots = {}
     spec.electricCompletedRoots = {}
     spec.energyAccumulatorMs = {}
@@ -339,8 +456,8 @@ function Service:ServiceStationApplyDimensions()
     spec.lengthMeters = length
 
     for _, stripeData in ipairs({
-        {node=spec.stripeLeftNode, offset=-stripeOffset},
-        {node=spec.stripeRightNode, offset=stripeOffset}
+        { node = spec.stripeLeftNode, offset = -stripeOffset },
+        { node = spec.stripeRightNode, offset = stripeOffset },
     }) do
         if stripeData.node ~= nil then
             setTranslation(stripeData.node, 0, 0, stripeData.offset)
@@ -426,7 +543,7 @@ function Service:ServiceStationGetVehicleChain(rootVehicle)
         end
     end
 
-    return {rootVehicle}
+    return { rootVehicle }
 end
 
 function Service:ServiceStationGetVehicleFarmId(vehicle)
@@ -522,7 +639,6 @@ function Service:ServiceStationOnVehicleDeleted(vehicle)
     end
 end
 
-
 function Service:ServiceStationRefreshActiveRoots(processNewRoots)
     local spec = self.spec_ServiceStation
     local currentRoots = {}
@@ -535,9 +651,9 @@ function Service:ServiceStationRefreshActiveRoots(processNewRoots)
                 local rootData = currentRoots[rootKey]
                 if rootData == nil then
                     rootData = {
-                        rootVehicle=rootVehicle,
-                        chainHash=getVehicleChainHash(rootVehicle),
-                        triggerVehicles={}
+                        rootVehicle = rootVehicle,
+                        chainHash = getVehicleChainHash(rootVehicle),
+                        triggerVehicles = {},
                     }
                     currentRoots[rootKey] = rootData
                 end
@@ -719,12 +835,20 @@ function Service:onUpdate(dt)
                 local elapsedSeconds = accumulatorMs * 0.001
                 spec.energyAccumulatorMs[rootKey] = 0
 
-                local dieselPerUpdate = spec.baseDieselLitersPerSecond * Service.getFillChargeSpeedFactor() * elapsedSeconds
-                local methanePerUpdate = spec.baseMethaneUnitsPerSecond * Service.getFillChargeSpeedFactor() * elapsedSeconds
-                local electricPerUpdate = spec.baseChargeUnitsPerSecond * Service.getElectricChargeSpeedFactor() * elapsedSeconds
-                if Service.settings.electricChargeUseTimeScale ~= false
+                local dieselPerUpdate = spec.baseDieselLitersPerSecond
+                    * Service.getFillChargeSpeedFactor()
+                    * elapsedSeconds
+                local methanePerUpdate = spec.baseMethaneUnitsPerSecond
+                    * Service.getFillChargeSpeedFactor()
+                    * elapsedSeconds
+                local electricPerUpdate = spec.baseChargeUnitsPerSecond
+                    * Service.getElectricChargeSpeedFactor()
+                    * elapsedSeconds
+                if
+                    Service.settings.electricChargeUseTimeScale ~= false
                     and g_currentMission ~= nil
-                    and g_currentMission.getEffectiveTimeScale ~= nil then
+                    and g_currentMission.getEffectiveTimeScale ~= nil
+                then
                     electricPerUpdate = electricPerUpdate * math.max(g_currentMission:getEffectiveTimeScale(), 0)
                 end
 
@@ -737,26 +861,27 @@ function Service:onUpdate(dt)
                     end
                     if spec.energyDiesel and FillType.DEF ~= nil then
                         if dieselFull then
-                            allFull = self:ServiceStationFillEnergyChain(rootVehicle, FillType.DEF, dieselPerUpdate) and allFull
+                            allFull = self:ServiceStationFillEnergyChain(rootVehicle, FillType.DEF, dieselPerUpdate)
+                                and allFull
                         else
                             allFull = false
                         end
                     end
                     if spec.energyMethane and FillType.METHANE ~= nil then
-                        allFull = self:ServiceStationFillEnergyChain(rootVehicle, FillType.METHANE, methanePerUpdate) and allFull
+                        allFull = self:ServiceStationFillEnergyChain(rootVehicle, FillType.METHANE, methanePerUpdate)
+                            and allFull
                     end
                     spec.fillCompletedRoots[rootKey] = allFull
                 end
 
-                if Service.settings.electricChargeInstant ~= true
+                if
+                    Service.settings.electricChargeInstant ~= true
                     and spec.energyElectric
                     and FillType.ELECTRICCHARGE ~= nil
-                    and spec.electricCompletedRoots[rootKey] ~= true then
-                    spec.electricCompletedRoots[rootKey] = self:ServiceStationFillEnergyChain(
-                        rootVehicle,
-                        FillType.ELECTRICCHARGE,
-                        electricPerUpdate
-                    )
+                    and spec.electricCompletedRoots[rootKey] ~= true
+                then
+                    spec.electricCompletedRoots[rootKey] =
+                        self:ServiceStationFillEnergyChain(rootVehicle, FillType.ELECTRICCHARGE, electricPerUpdate)
                 end
             end
         else
@@ -781,7 +906,8 @@ function Service:ServiceStationFillEnergyChain(rootVehicle, fillTypeIndex, units
             processed[key] = true
 
             if self:ServiceStationGetCanServiceVehicle(vehicle) then
-                local _, hasConsumer, isFull = self:ServiceStationFillConsumer(vehicle, fillTypeIndex, unitsPerVehicle, false)
+                local _, hasConsumer, isFull =
+                    self:ServiceStationFillConsumer(vehicle, fillTypeIndex, unitsPerVehicle, false)
                 if hasConsumer and not isFull then
                     allFull = false
                 end
@@ -794,16 +920,16 @@ end
 
 function Service:ServiceStationWashVehicle(vehicle)
     local dirtAmount = getVehicleMaxDirtAmount(vehicle)
-    if vehicle.cleanVehicle == nil
-        or dirtAmount <= FILL_EPSILON
-        or dirtAmount < Service.getWashMinimumDirt() then
+    if vehicle.cleanVehicle == nil or dirtAmount <= FILL_EPSILON or dirtAmount < Service.getWashMinimumDirt() then
         return false
     end
 
     local triggerWashType = Washable ~= nil and Washable.WASHTYPE_TRIGGER or nil
-    if triggerWashType ~= nil
+    if
+        triggerWashType ~= nil
         and vehicle.getAllowsWashingByType ~= nil
-        and not vehicle:getAllowsWashingByType(triggerWashType) then
+        and not vehicle:getAllowsWashingByType(triggerWashType)
+    then
         return false
     end
 
@@ -877,10 +1003,12 @@ function Service:ServiceStationRepaintVehicle(vehicle)
 end
 
 function Service:ServiceStationFillConsumer(vehicle, fillTypeIndex, maxLiters, showMoneyChange)
-    if vehicle.getConsumerFillUnitIndex == nil
+    if
+        vehicle.getConsumerFillUnitIndex == nil
         or vehicle.addFillUnitFillLevel == nil
         or vehicle.getFillUnitCapacity == nil
-        or vehicle.getFillUnitFillLevel == nil then
+        or vehicle.getFillUnitFillLevel == nil
+    then
         return 0, false, true
     end
 
