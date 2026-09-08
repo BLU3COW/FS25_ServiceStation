@@ -50,7 +50,12 @@ end
 function Service:ServiceStationSetupAutoDriveRefuelTrigger()
     local spec = self.spec_ServiceStation
     local triggerManager = getTriggerManager()
-    if spec == nil or spec.autoDriveRefuelTrigger ~= nil or spec.triggerNode == nil or triggerManager == nil then
+    if
+        spec == nil
+        or spec.autoDriveRefuelTrigger ~= nil
+        or spec.autoDriveTriggerNode == nil
+        or triggerManager == nil
+    then
         return
     end
 
@@ -74,7 +79,7 @@ function Service:ServiceStationSetupAutoDriveRefuelTrigger()
     end
 
     local refuelTrigger = {
-        triggerNode = spec.triggerNode,
+        triggerNode = spec.autoDriveTriggerNode,
         fillTypes = fillTypes,
         fillableObjects = {},
         effects = {},
@@ -97,7 +102,7 @@ function Service:ServiceStationSetupAutoDriveRefuelTrigger()
     self.loadingStation = spec.autoDriveLoadingStation
 
     if g_currentMission ~= nil and g_currentMission.addNodeObject ~= nil then
-        g_currentMission:addNodeObject(spec.triggerNode, refuelTrigger)
+        g_currentMission:addNodeObject(spec.autoDriveTriggerNode, refuelTrigger)
         spec.autoDriveTriggerNodeRegistered = true
     end
 
