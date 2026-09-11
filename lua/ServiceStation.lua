@@ -995,6 +995,13 @@ function Service:ServiceStationRepaintVehicle(vehicle)
         vehicle:addWearAmount(-math.huge, true)
     end
 
+    if g_farmManager ~= nil and g_achievementManager ~= nil then
+        local total = g_farmManager:updateFarmStats(farmId, "repaintVehicleCount", 1)
+        if total ~= nil then
+            g_achievementManager:tryUnlock("VehicleRepaint", total)
+        end
+    end
+
     if g_server ~= nil and WearableRepaintEvent ~= nil then
         g_server:broadcastEvent(WearableRepaintEvent.new(vehicle))
     end
