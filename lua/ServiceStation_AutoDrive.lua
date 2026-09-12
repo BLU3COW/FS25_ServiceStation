@@ -12,8 +12,7 @@ local function getAllFillLevels(source, farmId)
     if Service.settings.requireFarmAccess ~= false then
         local accessHandler = g_currentMission ~= nil and g_currentMission.accessHandler or nil
         if accessHandler ~= nil and accessHandler.canFarmAccess ~= nil then
-            local ok, canAccess = pcall(accessHandler.canFarmAccess, accessHandler, farmId, station)
-            if not ok or canAccess == false then
+            if accessHandler:canFarmAccess(farmId, station) == false then
                 return {}, 0
             end
         end
