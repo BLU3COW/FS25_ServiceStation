@@ -8,23 +8,25 @@ local SETTINGS_KEY = SETTINGS_ROOT .. ".settings"
 Service.CONFIG_MODE = "ServiceStationMode"
 Service.CONFIG_WIDTH = "ServiceStationWidth"
 Service.CONFIG_LENGTH = "ServiceStationLength"
-Service.settings = Service.settings or {
-    pricePercent = 100,
-    washMinimumDirtPercent = 5,
-    fillChargeSpeedPercent = 100,
-    fillChargeInstant = false,
-    electricChargeSpeedPercent = 100,
-    electricChargeInstant = false,
-    electricChargeUseTimeScale = true,
-    cooldownSeconds = 10,
-    requireFarmAccess = true
-}
+Service.settings = Service.settings
+    or {
+        pricePercent = 100,
+        washMinimumDirtPercent = 5,
+        fillChargeSpeedPercent = 100,
+        fillChargeInstant = false,
+        electricChargeSpeedPercent = 100,
+        electricChargeInstant = false,
+        electricChargeUseTimeScale = true,
+        cooldownSeconds = 10,
+        requireFarmAccess = true,
+    }
 
 ServiceStationConfigurationItem = {}
 local ServiceStationConfigurationItem_mt = Class(ServiceStationConfigurationItem, PlaceableConfigurationItem)
 
 function ServiceStationConfigurationItem.new(configName, customMt)
-    local self = ServiceStationConfigurationItem:superClass().new(configName, customMt or ServiceStationConfigurationItem_mt)
+    local self = ServiceStationConfigurationItem:superClass()
+        .new(configName, customMt or ServiceStationConfigurationItem_mt)
 
     self.wash = false
     self.repair = false
@@ -37,7 +39,10 @@ function ServiceStationConfigurationItem.new(configName, customMt)
 end
 
 function ServiceStationConfigurationItem:loadFromXML(xmlFile, baseKey, configKey, baseDirectory, customEnvironment)
-    if not ServiceStationConfigurationItem:superClass().loadFromXML(self, xmlFile, baseKey, configKey, baseDirectory, customEnvironment) then
+    if
+        not ServiceStationConfigurationItem:superClass()
+            .loadFromXML(self, xmlFile, baseKey, configKey, baseDirectory, customEnvironment)
+    then
         return false
     end
 
@@ -57,44 +62,46 @@ function ServiceStationConfigurationItem.registerXMLPaths(schema, rootPath, conf
     schema:register(XMLValueType.BOOL, configPath .. "#wash", "Wash complete vehicle chain", false)
     schema:register(XMLValueType.BOOL, configPath .. "#repair", "Repair complete vehicle chain", false)
     schema:register(XMLValueType.BOOL, configPath .. "#repaint", "Repaint complete vehicle chain", false)
-    schema:register(XMLValueType.BOOL, configPath .. "#diesel", "Fill diesel consumers including basegame DEF handling", false)
+    schema:register(
+        XMLValueType.BOOL,
+        configPath .. "#diesel",
+        "Fill diesel consumers including basegame DEF handling",
+        false
+    )
     schema:register(XMLValueType.BOOL, configPath .. "#electric", "Charge electric consumers", false)
     schema:register(XMLValueType.BOOL, configPath .. "#methane", "Fill methane consumers", false)
 end
 
 ServiceStationDimensionConfigurationItem = {}
-local ServiceStationDimensionConfigurationItem_mt = Class(ServiceStationDimensionConfigurationItem, PlaceableConfigurationItem)
+local ServiceStationDimensionConfigurationItem_mt =
+    Class(ServiceStationDimensionConfigurationItem, PlaceableConfigurationItem)
 
 function ServiceStationDimensionConfigurationItem.new(configName, customMt)
-    local self = ServiceStationDimensionConfigurationItem:superClass().new(
-        configName,
-        customMt or ServiceStationDimensionConfigurationItem_mt
-    )
+    local self = ServiceStationDimensionConfigurationItem:superClass()
+        .new(configName, customMt or ServiceStationDimensionConfigurationItem_mt)
 
     self.meters = 0
 
     return self
 end
 
-function ServiceStationDimensionConfigurationItem:loadFromXML(xmlFile, baseKey, configKey, baseDirectory, customEnvironment)
-    if not ServiceStationDimensionConfigurationItem:superClass().loadFromXML(
-        self,
-        xmlFile,
-        baseKey,
-        configKey,
-        baseDirectory,
-        customEnvironment
-    ) then
+function ServiceStationDimensionConfigurationItem:loadFromXML(
+    xmlFile,
+    baseKey,
+    configKey,
+    baseDirectory,
+    customEnvironment
+)
+    if
+        not ServiceStationDimensionConfigurationItem:superClass()
+            .loadFromXML(self, xmlFile, baseKey, configKey, baseDirectory, customEnvironment)
+    then
         return false
     end
 
     self.meters = math.max(xmlFile:getValue(configKey .. "#meters", self.meters), 0)
     local decimals = math.abs(self.meters - math.floor(self.meters)) > 0.001 and 1 or 0
-    self.name = string.format(
-        "%s %s",
-        g_i18n:formatNumber(self.meters, decimals, true),
-        g_i18n:getText("unit_mShort")
-    )
+    self.name = string.format("%s %s", g_i18n:formatNumber(self.meters, decimals, true), g_i18n:getText("unit_mShort"))
 
     return true
 end
@@ -174,14 +181,46 @@ local function loadSettingsFile(filename)
 
     Service.applySettings({
         pricePercent = getFloatValue(xmlFile, SETTINGS_KEY .. ".price#percent", Service.settings.pricePercent),
-        washMinimumDirtPercent = getFloatValue(xmlFile, SETTINGS_KEY .. ".wash#minimumDirtPercent", Service.settings.washMinimumDirtPercent),
-        fillChargeSpeedPercent = getFloatValue(xmlFile, SETTINGS_KEY .. ".fillCharge#speedPercent", Service.settings.fillChargeSpeedPercent),
-        fillChargeInstant = getBoolValue(xmlFile, SETTINGS_KEY .. ".fillCharge#instant", Service.settings.fillChargeInstant),
-        electricChargeSpeedPercent = getFloatValue(xmlFile, SETTINGS_KEY .. ".electricCharge#speedPercent", Service.settings.electricChargeSpeedPercent),
-        electricChargeInstant = getBoolValue(xmlFile, SETTINGS_KEY .. ".electricCharge#instant", Service.settings.electricChargeInstant),
-        electricChargeUseTimeScale = getBoolValue(xmlFile, SETTINGS_KEY .. ".electricCharge#useTimeScale", Service.settings.electricChargeUseTimeScale),
-        cooldownSeconds = getFloatValue(xmlFile, SETTINGS_KEY .. ".trigger#cooldownSeconds", Service.settings.cooldownSeconds),
-        requireFarmAccess = getBoolValue(xmlFile, SETTINGS_KEY .. ".access#requireFarmAccess", Service.settings.requireFarmAccess)
+        washMinimumDirtPercent = getFloatValue(
+            xmlFile,
+            SETTINGS_KEY .. ".wash#minimumDirtPercent",
+            Service.settings.washMinimumDirtPercent
+        ),
+        fillChargeSpeedPercent = getFloatValue(
+            xmlFile,
+            SETTINGS_KEY .. ".fillCharge#speedPercent",
+            Service.settings.fillChargeSpeedPercent
+        ),
+        fillChargeInstant = getBoolValue(
+            xmlFile,
+            SETTINGS_KEY .. ".fillCharge#instant",
+            Service.settings.fillChargeInstant
+        ),
+        electricChargeSpeedPercent = getFloatValue(
+            xmlFile,
+            SETTINGS_KEY .. ".electricCharge#speedPercent",
+            Service.settings.electricChargeSpeedPercent
+        ),
+        electricChargeInstant = getBoolValue(
+            xmlFile,
+            SETTINGS_KEY .. ".electricCharge#instant",
+            Service.settings.electricChargeInstant
+        ),
+        electricChargeUseTimeScale = getBoolValue(
+            xmlFile,
+            SETTINGS_KEY .. ".electricCharge#useTimeScale",
+            Service.settings.electricChargeUseTimeScale
+        ),
+        cooldownSeconds = getFloatValue(
+            xmlFile,
+            SETTINGS_KEY .. ".trigger#cooldownSeconds",
+            Service.settings.cooldownSeconds
+        ),
+        requireFarmAccess = getBoolValue(
+            xmlFile,
+            SETTINGS_KEY .. ".access#requireFarmAccess",
+            Service.settings.requireFarmAccess
+        ),
     })
 
     delete(xmlFile)
@@ -198,9 +237,17 @@ local function writeSettingsFile(filename)
     setCompactXMLNumber(xmlFile, SETTINGS_KEY .. ".wash#minimumDirtPercent", Service.settings.washMinimumDirtPercent)
     setCompactXMLNumber(xmlFile, SETTINGS_KEY .. ".fillCharge#speedPercent", Service.settings.fillChargeSpeedPercent)
     setXMLBool(xmlFile, SETTINGS_KEY .. ".fillCharge#instant", Service.settings.fillChargeInstant == true)
-    setCompactXMLNumber(xmlFile, SETTINGS_KEY .. ".electricCharge#speedPercent", Service.settings.electricChargeSpeedPercent)
+    setCompactXMLNumber(
+        xmlFile,
+        SETTINGS_KEY .. ".electricCharge#speedPercent",
+        Service.settings.electricChargeSpeedPercent
+    )
     setXMLBool(xmlFile, SETTINGS_KEY .. ".electricCharge#instant", Service.settings.electricChargeInstant == true)
-    setXMLBool(xmlFile, SETTINGS_KEY .. ".electricCharge#useTimeScale", Service.settings.electricChargeUseTimeScale ~= false)
+    setXMLBool(
+        xmlFile,
+        SETTINGS_KEY .. ".electricCharge#useTimeScale",
+        Service.settings.electricChargeUseTimeScale ~= false
+    )
     setCompactXMLNumber(xmlFile, SETTINGS_KEY .. ".trigger#cooldownSeconds", Service.settings.cooldownSeconds)
     setXMLBool(xmlFile, SETTINGS_KEY .. ".access#requireFarmAccess", Service.settings.requireFarmAccess ~= false)
     saveXMLFile(xmlFile)
@@ -303,7 +350,8 @@ local function sendSettings(baseMission, connection)
 end
 
 if FSBaseMission ~= nil then
-    FSBaseMission.onConnectionFinishedLoading = Utils.appendedFunction(FSBaseMission.onConnectionFinishedLoading, sendSettings)
+    FSBaseMission.onConnectionFinishedLoading =
+        Utils.appendedFunction(FSBaseMission.onConnectionFinishedLoading, sendSettings)
 end
 
 local function registerConfigurationTypes()

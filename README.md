@@ -11,11 +11,11 @@
 
 [![GitHub](https://img.shields.io/github/v/release/BLU3COW/FS25_ServiceStation?style=flat-square&label=GitHub&labelColor=555&color=00B6FF)](https://github.com/BLU3COW/FS25_ServiceStation/releases/latest)
 [![ModHub](https://img.shields.io/badge/ModHub-Pending-00B6FF?style=flat-square&labelColor=555)](https://github.com/BLU3COW/FS25_ServiceStation)
+[![Kingmods](https://img.shields.io/badge/Kingmods-Pending-00B6FF?style=flat-square&labelColor=555)](https://github.com/BLU3COW/FS25_ServiceStation)
 [![Downloads](https://img.shields.io/github/downloads/BLU3COW/FS25_ServiceStation/total?style=flat-square&label=Downloads&labelColor=555&color=00B6FF)](https://github.com/BLU3COW/FS25_ServiceStation/releases)
 [![Issues](https://img.shields.io/github/issues-search/BLU3COW/FS25_ServiceStation?query=is%3Aopen%20is%3Aissue&style=flat-square&label=Issues&labelColor=555&color=00B6FF)](https://github.com/BLU3COW/FS25_ServiceStation/issues)
 [![Discussions](https://img.shields.io/github/discussions-search/BLU3COW/FS25_ServiceStation?query=is%3Aopen&style=flat-square&label=Discussions&labelColor=555&color=00B6FF)](https://github.com/BLU3COW/FS25_ServiceStation/discussions)
 [![Pulls](https://img.shields.io/github/issues-search/BLU3COW/FS25_ServiceStation?query=is%3Aopen%20is%3Apr&style=flat-square&label=Pulls&labelColor=555&color=00B6FF)](https://github.com/BLU3COW/FS25_ServiceStation/pulls)
-[![Wiki](https://img.shields.io/website?url=https%3A%2F%2Fgithub.com%2FBLU3COW%2FFS25_ServiceStation%2Fwiki&style=flat-square&label=Wiki&labelColor=555&up_color=00B6FF&up_message=online&down_message=offline)](https://github.com/BLU3COW/FS25_ServiceStation/wiki)
 [![Discord](https://img.shields.io/badge/Discord-Join-00B6FF?style=flat-square&labelColor=555)](https://discord.gg/JdKvhdheU)
 [![License](https://img.shields.io/badge/License-BLU3COW-00B6FF?style=flat-square&labelColor=555)](LICENSE)
 [![Email](https://img.shields.io/badge/Email-mail%40blu3cow.com-00B6FF?style=flat-square&labelColor=555)](mailto:mail@blu3cow.com)
@@ -30,7 +30,7 @@
 
 <div align="center">
 
-[WEBSITE](https://blu3cow.com) | [DISCORD](https://discord.gg/JdKvhdheU) | [DOWNLOAD](https://github.com/BLU3COW/FS25_ServiceStation/releases) | [README](README.md) |  [LICENSE](LICENSE) | [ISSUES](https://github.com/BLU3COW/FS25_ServiceStation/issues) | [DISCUSSIONS](https://github.com/BLU3COW/FS25_ServiceStation/discussions) | [PULLS](https://github.com/BLU3COW/FS25_ServiceStation/pulls) | [WIKI](https://github.com/BLU3COW/FS25_ServiceStation/wiki)
+[WEBSITE](https://blu3cow.com) | [DISCORD](https://discord.gg/JdKvhdheU) | [DOWNLOAD](https://github.com/BLU3COW/FS25_ServiceStation/releases) | [README](README.md) |  [LICENSE](LICENSE) | [ISSUES](https://github.com/BLU3COW/FS25_ServiceStation/issues) | [DISCUSSIONS](https://github.com/BLU3COW/FS25_ServiceStation/discussions) | [PULLS](https://github.com/BLU3COW/FS25_ServiceStation/pulls)
 </div>
 
 
