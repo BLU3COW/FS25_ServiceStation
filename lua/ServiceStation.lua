@@ -14,6 +14,7 @@ local STRIPE_WIDTH_METERS = 0.25
 local TRIGGER_MARGIN_METERS = 0.5
 local TRIGGER_MIN_LENGTH_METERS = 2
 local SCALE_EPSILON = 0.0001
+local CHARGE_INFO_INTERACTION_RADIUS_METERS = 20
 
 local function getStripeLengthIndex(length)
     local bestIndex = 1
@@ -204,6 +205,11 @@ function Service.registerFunctions(placeableType)
         Service.ServiceStationRepaintVehicle
     )
     SpecializationUtil.registerFunction(placeableType, "ServiceStationFillConsumer", Service.ServiceStationFillConsumer)
+    SpecializationUtil.registerFunction(
+        placeableType,
+        "ServiceStationShowChargeInfo",
+        Service.ServiceStationShowChargeInfo
+    )
 end
 
 function Service.registerOverwrittenFunctions(placeableType)
@@ -275,6 +281,22 @@ local function isVehicleObjectValid(vehicle)
         and vehicle.markedForDeletion ~= true
         and vehicle.rootNode ~= nil
         and vehicle.rootNode ~= 0
+end
+
+local function getElectricChargeState(vehicleChain)
+    for _, vehicle in ipairs(vehicleChain) do
+        if vehicle.getConsumerFillUnitIndex ~= nil then
+            local fillUnitIndex = vehicle:getConsumerFillUnitIndex(FillType.ELECTRICCHARGE)
+            if fillUnitIndex ~= nil and vehicle.getFillUnitFillLevel ~= nil and vehicle.getFillUnitCapacity ~= nil then
+                local capacity = vehicle:getFillUnitCapacity(fillUnitIndex)
+                if capacity ~= nil and capacity > 0 and capacity < math.huge then
+                    return vehicle, vehicle:getFillUnitFillLevel(fillUnitIndex) or 0, capacity
+                end
+            end
+        end
+    end
+
+    return nil, 0, 0
 end
 
 local function getVehicleMaxDirtAmount(vehicle)
@@ -827,6 +849,8 @@ function Service:onUpdate(dt)
     end
 
     for rootKey, rootVehicle in pairs(spec.activeRoots) do
+        self:ServiceStationShowChargeInfo(rootVehicle)
+
         if hasPendingEnergyForRoot(spec, rootKey) then
             local accumulatorMs = (spec.energyAccumulatorMs[rootKey] or 0) + dt
             spec.energyAccumulatorMs[rootKey] = accumulatorMs
@@ -916,6 +940,85 @@ function Service:ServiceStationFillEnergyChain(rootVehicle, fillTypeIndex, units
     end
 
     return allFull
+end
+
+function Service:ServiceStationShowChargeInfo(rootVehicle)
+    if g_localPlayer == nil or g_currentMission == nil or g_currentMission.addExtraPrintText == nil then
+        return
+    end
+
+    local spec = self.spec_ServiceStation
+    if not spec.energyElectric or FillType.ELECTRICCHARGE == nil or Service.settings.electricChargeInstant == true then
+        return
+    end
+
+    local speedFactor = Service.getElectricChargeSpeedFactor()
+    if speedFactor <= 0 then
+        return
+    end
+
+    local vehicleChain = self:ServiceStationGetVehicleChain(rootVehicle)
+    local vehicle, fillLevel, capacity = getElectricChargeState(vehicleChain)
+    if vehicle == nil then
+        return
+    end
+
+    local remaining = capacity - fillLevel
+    if remaining <= FILL_EPSILON then
+        return
+    end
+
+    local allowDisplay = false
+    if not g_localPlayer:getIsInVehicle() then
+        local distance = calcDistanceFrom(g_localPlayer.rootNode, self.rootNode)
+        if distance < CHARGE_INFO_INTERACTION_RADIUS_METERS then
+            allowDisplay = true
+        end
+    else
+        local playerVehicle = g_localPlayer:getCurrentVehicle()
+        if playerVehicle ~= nil then
+            for _, chainVehicle in ipairs(vehicleChain) do
+                if chainVehicle == playerVehicle then
+                    allowDisplay = true
+                    break
+                end
+            end
+        end
+    end
+
+    if not allowDisplay then
+        return
+    end
+
+    local unitsPerSecond = spec.baseChargeUnitsPerSecond * speedFactor
+    if Service.settings.electricChargeUseTimeScale ~= false and g_currentMission.getEffectiveTimeScale ~= nil then
+        unitsPerSecond = unitsPerSecond * math.max(g_currentMission:getEffectiveTimeScale(), 0)
+    end
+
+    if unitsPerSecond <= 0 then
+        return
+    end
+
+    local seconds = remaining / unitsPerSecond
+    if seconds < 1 then
+        return
+    end
+
+    local minutes = math.floor(seconds / 60)
+    local hours = math.floor(minutes / 60)
+    minutes = minutes - hours * 60
+    local percentage = fillLevel / capacity * 100
+
+    local chargingInfoText = string.namedFormat(
+        g_i18n:getText("info_chargeTime"),
+        "hours",
+        hours,
+        "minutes",
+        minutes,
+        "percentage",
+        percentage
+    )
+    g_currentMission:addExtraPrintText(chargingInfoText)
 end
 
 function Service:ServiceStationWashVehicle(vehicle)
