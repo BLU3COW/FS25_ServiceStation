@@ -27,7 +27,7 @@ Length 0.5–40 meters
 
 The settings for price, minimum requirement, and fill rate (% and immediate) can be adjusted in modSettings. AutoDrive is supported.
 
-For help, to report issues, or to find the link to the latest version, visit the <a href="https://blu3cow.com">Website</a> or the <a href="https://github.com/BLU3COW/FS25_ServiceStation">Github</a>.]]></en>
+Source code, help and issue reports: https://github.com/BLU3COW/FS25_ServiceStation]]></en>
         <de><![CDATA[ServiceStation
 Shopkategorie: Diverses
 Preis: 45.000€
@@ -46,7 +46,7 @@ Breite 2-20 Meter
 Länge 0,5-40 Meter 
 
 Die Einstellungen zum Preis, Mindestanforderung, Füllgeschwindigkeit (% und sofort) können in modSettings angepasst werden. AutoDrive wird unterstützt.
-Für Hilfe, Meldung von Problemen oder dem Link zur neusten Version besuchen sie <a href="https://blu3cow.com">Website</a> oder <a href="https://github.com/BLU3COW/FS25_ServiceStation">Github</a>.]]></de>
+Quellcode, Hilfe und Fehlermeldungen: https://github.com/BLU3COW/FS25_ServiceStation]]></de>
         <fr><![CDATA[ServiceStation
 Catégorie: Divers
 Prix: 45 000€
@@ -66,7 +66,7 @@ Longueur : 0,5 à 40 mètres
 
 Les paramètres relatifs au prix, aux exigences minimales et à la vitesse de remplissage (en % et immédiate) peuvent être ajustés dans modSettings. La fonction AutoDrive est prise en charge.
 
-Pour obtenir de l'aide, signaler des problèmes ou accéder au lien vers la dernière version, rendez-vous sur le <a href="https://blu3cow.com">site web</a> ou sur <a href="https://github.com/BLU3COW/FS25_ServiceStation">Github</a>.]]></fr>
+Code source, aide et signalement de problèmes : https://github.com/BLU3COW/FS25_ServiceStation]]></fr>
     </description>
 
     <iconFilename>dds/icon_ServiceStation.dds</iconFilename>
