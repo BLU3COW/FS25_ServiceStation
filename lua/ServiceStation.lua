@@ -571,8 +571,7 @@ function Service:ServiceStationGetCanServiceVehicle(vehicle)
         local accessHandler = g_currentMission ~= nil and g_currentMission.accessHandler or nil
         if accessHandler ~= nil and accessHandler.canFarmAccess ~= nil then
             local farmId = self:ServiceStationGetVehicleFarmId(vehicle)
-            local ok, canAccess = pcall(accessHandler.canFarmAccess, accessHandler, farmId, self)
-            if not ok or canAccess == false then
+            if accessHandler:canFarmAccess(farmId, self) == false then
                 return false
             end
         end
