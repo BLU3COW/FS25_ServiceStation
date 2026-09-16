@@ -20,7 +20,9 @@ local function getAllFillLevels(source, farmId)
 
     local fillLevels = {}
     for fillTypeIndex in pairs(source.refuelTrigger.fillTypes) do
-        fillLevels[fillTypeIndex] = AVAILABLE_SUPPLY
+        if Service.ServiceStationCanProvideFillType(station.spec_ServiceStation, fillTypeIndex) then
+            fillLevels[fillTypeIndex] = AVAILABLE_SUPPLY
+        end
     end
 
     return fillLevels, AVAILABLE_SUPPLY
@@ -35,6 +37,27 @@ local function onFillTypeSelection(refuelTrigger, fillTypeIndex)
     else
         refuelTrigger.isLoading = false
     end
+end
+
+local function installRefuelVehicleHook()
+    local refuelTaskClass = _G.RefuelTask
+    if
+        Service.autoDriveRefuelVehicleHookInstalled == true
+        or refuelTaskClass == nil
+        or refuelTaskClass.startRefueling == nil
+    then
+        return
+    end
+
+    local startRefueling = refuelTaskClass.startRefueling
+    refuelTaskClass.startRefueling = function(task)
+        local refuelTrigger = task.refuelTrigger
+        if refuelTrigger ~= nil and refuelTrigger.ServiceStation ~= nil then
+            refuelTrigger.ServiceStationVehicle = task.vehicle
+        end
+        return startRefueling(task)
+    end
+    Service.autoDriveRefuelVehicleHookInstalled = true
 end
 
 local function getTriggerManager()
@@ -57,6 +80,8 @@ function Service:ServiceStationSetupAutoDriveRefuelTrigger()
     then
         return
     end
+
+    installRefuelVehicleHook()
 
     local fillTypes = {}
     if spec.energyDiesel then
@@ -85,6 +110,7 @@ function Service:ServiceStationSetupAutoDriveRefuelTrigger()
         autoStart = true,
         isLoading = false,
         selectedFillType = nil,
+        ServiceStationVehicle = nil,
         ServiceStation = self,
         onFillTypeSelection = onFillTypeSelection,
     }
@@ -129,6 +155,7 @@ function Service:ServiceStationDeleteAutoDriveRefuelTrigger()
     end
 
     refuelTrigger.isLoading = false
+    refuelTrigger.ServiceStationVehicle = nil
     refuelTrigger.ServiceStation = nil
     refuelTrigger.source.ServiceStation = nil
     spec.autoDriveRefuelTrigger = nil
@@ -155,8 +182,19 @@ function Service:ServiceStationUpdateAutoDriveRefuelTrigger()
         refuelTrigger.fillableObjects[#refuelTrigger.fillableObjects + 1] = rootVehicle
     end
 
-    refuelTrigger.isLoading = refuelTrigger.selectedFillType ~= nil and Service.ServiceStationHasPendingEnergy(spec)
+    local selectedVehicle = refuelTrigger.ServiceStationVehicle
+    local taskModule = selectedVehicle ~= nil and selectedVehicle.ad ~= nil and selectedVehicle.ad.taskModule or nil
+    local activeTask = taskModule ~= nil and taskModule.getActiveTask ~= nil and taskModule:getActiveTask() or nil
+    if activeTask == nil or activeTask.refuelTrigger ~= refuelTrigger then
+        selectedVehicle = nil
+        refuelTrigger.ServiceStationVehicle = nil
+    end
+
+    refuelTrigger.isLoading = refuelTrigger.selectedFillType ~= nil
+        and selectedVehicle ~= nil
+        and Service.ServiceStationVehicleHasPendingFillType(self, selectedVehicle, refuelTrigger.selectedFillType)
     if not refuelTrigger.isLoading then
         refuelTrigger.selectedFillType = nil
+        refuelTrigger.ServiceStationVehicle = nil
     end
 end
