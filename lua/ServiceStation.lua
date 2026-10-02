@@ -66,6 +66,11 @@ function Service.registerXMLPaths(schema, basePath)
     )
     schema:register(
         XMLValueType.NODE_INDEX,
+        basePath .. ".ServiceStation#autoDriveTriggerNode",
+        "AutoDrive refuel trigger node"
+    )
+    schema:register(
+        XMLValueType.NODE_INDEX,
         basePath .. ".ServiceStation#selectionNode",
         "Construction mode selection node"
     )
@@ -393,6 +398,7 @@ function Service:onLoad(savegame)
     spec.triggerSessionVehicles = {}
     spec.activeRoots = {}
     spec.activeRootHashes = {}
+    spec.activeRootVehicles = {}
     spec.lastServiceTimes = setmetatable({}, { __mode = "k" })
     spec.fillCompletedRoots = {}
     spec.electricCompletedRoots = {}
@@ -407,8 +413,10 @@ end
 
 function Service:onFinalizePlacement()
     local spec = self.spec_ServiceStation
-    if self.isServer and spec.triggerNode ~= nil then
+    if spec.triggerNode ~= nil then
         addTrigger(spec.triggerNode, "ServiceStationTriggerCallback", self)
+    end
+    if self.isServer then
         self:ServiceStationSetupAutoDriveRefuelTrigger()
     end
 end
@@ -419,11 +427,11 @@ function Service:onDelete()
         self:ServiceStationDeleteAutoDriveRefuelTrigger()
     end
 
-    if self.isServer and spec ~= nil and spec.triggerNode ~= nil then
+    if spec ~= nil and spec.triggerNode ~= nil then
         removeTrigger(spec.triggerNode)
     end
 
-    if self.isServer and spec ~= nil and spec.triggerVehicles ~= nil then
+    if spec ~= nil and spec.triggerVehicles ~= nil then
         for vehicle in pairs(spec.triggerVehicles) do
             if vehicle.removeDeleteListener ~= nil then
                 vehicle:removeDeleteListener(self, Service.ServiceStationOnVehicleDeleted)
@@ -603,7 +611,7 @@ function Service:ServiceStationGetCanServiceVehicle(vehicle)
 end
 
 function Service:ServiceStationTriggerCallback(triggerId, otherId, onEnter, onLeave, onStay)
-    if not self.isServer or not (onEnter or onLeave) then
+    if not (onEnter or onLeave) then
         return
     end
 
@@ -634,7 +642,7 @@ function Service:ServiceStationTriggerCallback(triggerId, otherId, onEnter, onLe
         removeTriggerNodeObject(self, otherId, true)
     end
 
-    self:ServiceStationRefreshActiveRoots(true)
+    self:ServiceStationRefreshActiveRoots(self.isServer)
     if self.raiseActive ~= nil then
         self:raiseActive()
     end
@@ -655,7 +663,7 @@ function Service:ServiceStationOnVehicleDeleted(vehicle)
     spec.triggerSessionVehicles[vehicle] = nil
     spec.lastServiceTimes[vehicle] = nil
 
-    self:ServiceStationRefreshActiveRoots(true)
+    self:ServiceStationRefreshActiveRoots(self.isServer)
     if self.raiseActive ~= nil then
         self:raiseActive()
     end
@@ -688,6 +696,7 @@ function Service:ServiceStationRefreshActiveRoots(processNewRoots)
         if currentRoots[rootKey] == nil then
             spec.activeRoots[rootKey] = nil
             spec.activeRootHashes[rootKey] = nil
+            spec.activeRootVehicles[rootKey] = nil
             spec.fillCompletedRoots[rootKey] = nil
             spec.electricCompletedRoots[rootKey] = nil
             spec.energyAccumulatorMs[rootKey] = nil
@@ -698,6 +707,11 @@ function Service:ServiceStationRefreshActiveRoots(processNewRoots)
         local previousRootVehicle = spec.activeRoots[rootKey]
         local wasActive = previousRootVehicle == rootData.rootVehicle
         local chainChanged = wasActive and spec.activeRootHashes[rootKey] ~= rootData.chainHash
+        local previousRootVehicles = spec.activeRootVehicles[rootKey] or {}
+        local currentRootVehicles = {}
+        for _, chainVehicle in ipairs(self:ServiceStationGetVehicleChain(rootData.rootVehicle)) do
+            currentRootVehicles[chainVehicle] = true
+        end
         local wasAlreadyPresent = false
         for vehicle in pairs(rootData.triggerVehicles) do
             if spec.triggerSessionVehicles[vehicle] == true then
@@ -708,6 +722,7 @@ function Service:ServiceStationRefreshActiveRoots(processNewRoots)
 
         spec.activeRoots[rootKey] = rootData.rootVehicle
         spec.activeRootHashes[rootKey] = rootData.chainHash
+        spec.activeRootVehicles[rootKey] = currentRootVehicles
 
         if not wasActive then
             spec.fillCompletedRoots[rootKey] = Service.settings.fillChargeInstant == true
@@ -716,7 +731,7 @@ function Service:ServiceStationRefreshActiveRoots(processNewRoots)
 
             if processNewRoots ~= false and not wasAlreadyPresent then
                 local now = getTimeMillis()
-                local cooldown = math.max(tonumber(Service.settings.cooldownSeconds) or 0, 0) * 1000
+                local cooldown = Service.getCooldownSeconds() * 1000
                 local vehicleChain = self:ServiceStationGetVehicleChain(rootData.rootVehicle)
                 local isInCooldown = false
 
@@ -729,10 +744,10 @@ function Service:ServiceStationRefreshActiveRoots(processNewRoots)
                 end
 
                 if not isInCooldown then
-                    for _, chainVehicle in ipairs(vehicleChain) do
-                        spec.lastServiceTimes[chainVehicle] = now
+                    local servicedVehicles = self:ServiceStationProcessInstantChain(rootData.rootVehicle)
+                    for servicedVehicle in pairs(servicedVehicles) do
+                        spec.lastServiceTimes[servicedVehicle] = now
                     end
-                    self:ServiceStationProcessInstantChain(rootData.rootVehicle)
                 end
             end
         elseif chainChanged then
@@ -742,6 +757,23 @@ function Service:ServiceStationRefreshActiveRoots(processNewRoots)
             end
             if Service.settings.electricChargeInstant ~= true then
                 spec.electricCompletedRoots[rootKey] = false
+            end
+            if processNewRoots ~= false then
+                local now = getTimeMillis()
+                local cooldown = Service.getCooldownSeconds() * 1000
+                local newVehicles = {}
+                for chainVehicle in pairs(currentRootVehicles) do
+                    if previousRootVehicles[chainVehicle] ~= true then
+                        local lastServiceTime = spec.lastServiceTimes[chainVehicle]
+                        if lastServiceTime == nil or now - lastServiceTime >= cooldown then
+                            newVehicles[chainVehicle] = true
+                        end
+                    end
+                end
+                local servicedVehicles = self:ServiceStationProcessInstantChain(rootData.rootVehicle, newVehicles)
+                for servicedVehicle in pairs(servicedVehicles) do
+                    spec.lastServiceTimes[servicedVehicle] = now
+                end
             end
         end
 
@@ -753,44 +785,54 @@ function Service:ServiceStationRefreshActiveRoots(processNewRoots)
     self:ServiceStationUpdateAutoDriveRefuelTrigger()
 end
 
-function Service:ServiceStationProcessInstantChain(rootVehicle)
+function Service:ServiceStationProcessInstantChain(rootVehicle, vehicleFilter)
     local spec = self.spec_ServiceStation
     local processed = {}
+    local servicedVehicles = {}
     local fillInstant = Service.settings.fillChargeInstant == true
     local electricInstant = Service.settings.electricChargeInstant == true
 
     for _, vehicle in ipairs(self:ServiceStationGetVehicleChain(rootVehicle)) do
         local key = vehicle ~= nil and (vehicle.rootNode or vehicle.id) or nil
-        if key ~= nil and processed[key] ~= true then
+        if key ~= nil and processed[key] ~= true and (vehicleFilter == nil or vehicleFilter[vehicle] == true) then
             processed[key] = true
 
             if self:ServiceStationGetCanServiceVehicle(vehicle) then
+                local wasServiced = false
                 if spec.wash then
-                    self:ServiceStationWashVehicle(vehicle)
+                    wasServiced = self:ServiceStationWashVehicle(vehicle) or wasServiced
                 end
 
                 if spec.repair then
-                    self:ServiceStationRepairVehicle(vehicle)
+                    wasServiced = self:ServiceStationRepairVehicle(vehicle) or wasServiced
                 end
 
                 if spec.repaint then
-                    self:ServiceStationRepaintVehicle(vehicle)
+                    wasServiced = self:ServiceStationRepaintVehicle(vehicle) or wasServiced
                 end
 
                 if fillInstant and spec.energyDiesel and FillType.DIESEL ~= nil then
-                    self:ServiceStationFillConsumer(vehicle, FillType.DIESEL, nil, true)
+                    local added = self:ServiceStationFillConsumer(vehicle, FillType.DIESEL, nil, true)
+                    wasServiced = added > 0 or wasServiced
                 end
 
                 if fillInstant and spec.energyDiesel and FillType.DEF ~= nil then
-                    self:ServiceStationFillConsumer(vehicle, FillType.DEF, nil, true)
+                    local added = self:ServiceStationFillConsumer(vehicle, FillType.DEF, nil, true)
+                    wasServiced = added > 0 or wasServiced
                 end
 
                 if fillInstant and spec.energyMethane and FillType.METHANE ~= nil then
-                    self:ServiceStationFillConsumer(vehicle, FillType.METHANE, nil, true)
+                    local added = self:ServiceStationFillConsumer(vehicle, FillType.METHANE, nil, true)
+                    wasServiced = added > 0 or wasServiced
                 end
 
                 if electricInstant and spec.energyElectric and FillType.ELECTRICCHARGE ~= nil then
-                    self:ServiceStationFillConsumer(vehicle, FillType.ELECTRICCHARGE, nil, true)
+                    local added = self:ServiceStationFillConsumer(vehicle, FillType.ELECTRICCHARGE, nil, true)
+                    wasServiced = added > 0 or wasServiced
+                end
+
+                if wasServiced then
+                    servicedVehicles[vehicle] = true
                 end
             end
         end
@@ -805,6 +847,62 @@ function Service:ServiceStationProcessInstantChain(rootVehicle)
             spec.electricCompletedRoots[rootKey] = true
         end
     end
+
+    return servicedVehicles
+end
+
+function Service.ServiceStationCanProvideFillType(spec, fillTypeIndex)
+    if spec == nil or fillTypeIndex == nil then
+        return false
+    end
+
+    if fillTypeIndex == FillType.ELECTRICCHARGE then
+        return spec.energyElectric
+            and (Service.settings.electricChargeInstant == true or Service.getElectricChargeSpeedFactor() > 0)
+    end
+    if fillTypeIndex == FillType.METHANE then
+        return spec.energyMethane
+            and (Service.settings.fillChargeInstant == true or Service.getFillChargeSpeedFactor() > 0)
+    end
+    if fillTypeIndex == FillType.DIESEL or fillTypeIndex == FillType.DEF then
+        return spec.energyDiesel
+            and (Service.settings.fillChargeInstant == true or Service.getFillChargeSpeedFactor() > 0)
+    end
+
+    return false
+end
+
+function Service.ServiceStationVehicleHasPendingFillType(station, vehicle, fillTypeIndex)
+    local spec = station ~= nil and station.spec_ServiceStation or nil
+    if
+        not Service.ServiceStationCanProvideFillType(spec, fillTypeIndex)
+        or not station:ServiceStationGetCanServiceVehicle(vehicle)
+    then
+        return false
+    end
+
+    if
+        (fillTypeIndex == FillType.ELECTRICCHARGE and Service.settings.electricChargeInstant == true)
+        or (fillTypeIndex ~= FillType.ELECTRICCHARGE and Service.settings.fillChargeInstant == true)
+        or vehicle.getConsumerFillUnitIndex == nil
+        or vehicle.getFillUnitCapacity == nil
+        or vehicle.getFillUnitFillLevel == nil
+    then
+        return false
+    end
+
+    local fillUnitIndex = vehicle:getConsumerFillUnitIndex(fillTypeIndex)
+    if fillUnitIndex == nil then
+        return false
+    end
+
+    local capacity = vehicle:getFillUnitCapacity(fillUnitIndex)
+    local fillLevel = vehicle:getFillUnitFillLevel(fillUnitIndex)
+    return capacity ~= nil
+        and fillLevel ~= nil
+        and capacity > 0
+        and capacity < math.huge
+        and capacity - fillLevel > FILL_EPSILON
 end
 
 local function hasPendingEnergyForRoot(spec, rootKey)
@@ -832,16 +930,25 @@ function Service.ServiceStationHasPendingEnergy(spec)
 end
 
 function Service:onUpdate(dt)
-    if not self.isServer then
-        return
-    end
-
     local spec = self.spec_ServiceStation
     if spec == nil then
         return
     end
 
-    self:ServiceStationRefreshActiveRoots(true)
+    self:ServiceStationRefreshActiveRoots(self.isServer)
+
+    if self.isClient then
+        for _, rootVehicle in pairs(spec.activeRoots) do
+            self:ServiceStationShowChargeInfo(rootVehicle)
+        end
+    end
+
+    if not self.isServer then
+        if next(spec.activeRoots) ~= nil and self.raiseActive ~= nil then
+            self:raiseActive()
+        end
+        return
+    end
 
     if next(spec.activeRoots) == nil then
         spec.energyAccumulatorMs = {}
@@ -849,8 +956,6 @@ function Service:onUpdate(dt)
     end
 
     for rootKey, rootVehicle in pairs(spec.activeRoots) do
-        self:ServiceStationShowChargeInfo(rootVehicle)
-
         if hasPendingEnergyForRoot(spec, rootKey) then
             local accumulatorMs = (spec.energyAccumulatorMs[rootKey] or 0) + dt
             spec.energyAccumulatorMs[rootKey] = accumulatorMs
@@ -1053,7 +1158,7 @@ end
 
 function Service:ServiceStationRepairVehicle(vehicle)
     if vehicle.getDamageAmount == nil or vehicle:getDamageAmount() <= 0.0001 then
-        return
+        return false
     end
 
     local farmId = self:ServiceStationGetVehicleFarmId(vehicle)
@@ -1081,11 +1186,12 @@ function Service:ServiceStationRepairVehicle(vehicle)
     if g_messageCenter ~= nil and MessageType ~= nil and MessageType.VEHICLE_REPAIRED ~= nil then
         g_messageCenter:publish(MessageType.VEHICLE_REPAIRED, vehicle, false)
     end
+    return true
 end
 
 function Service:ServiceStationRepaintVehicle(vehicle)
     if vehicle.getWearTotalAmount == nil or vehicle:getWearTotalAmount() <= 0.0001 then
-        return
+        return false
     end
 
     local farmId = self:ServiceStationGetVehicleFarmId(vehicle)
@@ -1110,6 +1216,7 @@ function Service:ServiceStationRepaintVehicle(vehicle)
     if g_messageCenter ~= nil and MessageType ~= nil and MessageType.VEHICLE_REPAINTED ~= nil then
         g_messageCenter:publish(MessageType.VEHICLE_REPAINTED, vehicle)
     end
+    return true
 end
 
 function Service:ServiceStationFillConsumer(vehicle, fillTypeIndex, maxLiters, showMoneyChange)

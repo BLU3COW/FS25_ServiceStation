@@ -94,14 +94,14 @@ Wähle direkt im Baumodus vor dem Platzieren zwischen den Modi <strong>Full</str
 </div>
 <br>
 
-<div align="center">Choose the mode when configuring the ServiceStation in construction mode, before placing it. <strong>Full</strong> offers every service in one station. <strong>Service</strong> only repairs and repaints, <strong>Tank</strong> only refuels and charges, and <strong>Wash</strong> only washes. This lets you build a single all-in-one station, or split services across several smaller, cheaper stations if you prefer.</div>
+<div align="center">Choose the mode when configuring the ServiceStation in construction mode, before placing it. <strong>Full</strong> offers every service in one station. <strong>Service</strong> only repairs and repaints, <strong>Tank</strong> only refuels and charges, and <strong>Wash</strong> only washes. This lets you build a single all-in-one station, or split services across several smaller dedicated stations if you prefer.</div>
 <br>
 <div align="center">
 
 <details>
 <summary><div align="center"><img width="15"  alt="flag-german" src=".github/assets/badges/flag-german.svg" /> ➡️​ <strong>Deutsch</strong> ⬅️ <img width="15"  alt="flag-german" src=".github/assets/badges/flag-german.svg" />​</div></summary>
 <br>
-<div align="center">Den Modus wählst du bei der Konfiguration der ServiceStation im Baumodus, bevor du sie platzierst. <strong>Full</strong> bietet alle Leistungen in einer Station. <strong>Service</strong> repariert und lackiert nur, <strong>Tank</strong> tankt und lädt nur, und <strong>Wash</strong> wäscht nur. So kannst du dir eine einzige Allround-Station bauen oder die Leistungen bei Bedarf auf mehrere kleinere, günstigere Stationen aufteilen.</div>
+<div align="center">Den Modus wählst du bei der Konfiguration der ServiceStation im Baumodus, bevor du sie platzierst. <strong>Full</strong> bietet alle Leistungen in einer Station. <strong>Service</strong> repariert und lackiert nur, <strong>Tank</strong> tankt und lädt nur, und <strong>Wash</strong> wäscht nur. So kannst du dir eine einzige Allround-Station bauen oder die Leistungen bei Bedarf auf mehrere kleinere spezialisierte Stationen aufteilen.</div>
 </details>
 </div>
 <br>
@@ -140,17 +140,17 @@ Wähle direkt im Baumodus vor dem Platzieren zwischen den Modi <strong>Full</str
 
 <div align="center">
 
-| Setting | English | German | Default |
-| --- | --- | --- | --- |
-| **price.percent** | Price scaling | Preis-Skalierung | 100 % |
-| **wash.minimumDirtPercent** | Minimum dirt before washing | Mindestverschmutzung fürs Waschen | 5 % |
-| **fillCharge.speedPercent** | Diesel / DEF / Methane speed | Diesel-/AdBlue-/Methan-Geschwindigkeit | 100 % |
-| **fillCharge.instant** | Instantly fill Diesel / DEF / Methane | Diesel/AdBlue/Methan sofort auffüllen | OFF |
-| **electricCharge.speedPercent** | Electric charge speed | Lade­geschwindigkeit Strom | 100 % |
-| **electricCharge.instant** | Instantly charge electric vehicles | Elektrofahrzeuge sofort laden | OFF |
-| **electricCharge.useTimeScale** | Scale electric charging with time scale | Laden mit Zeitraffer skalieren | ON |
-| **trigger.cooldownSeconds** | Cooldown before re-servicing the same vehicle | Abklingzeit vor erneuter Bedienung | 10 s |
-| **access.requireFarmAccess** | Only service vehicles your farm has access to | Nur Fahrzeuge mit Zugriffsrecht bedienen | ON |
+| Setting | English | German | Range | Default |
+| --- | --- | --- | --- | --- |
+| **price.percent** | Price scaling | Preis-Skalierung | 0–100000 % | 100 % |
+| **wash.minimumDirtPercent** | Minimum dirt before washing | Mindestverschmutzung fürs Waschen | 0–100 % | 5 % |
+| **fillCharge.speedPercent** | Diesel / DEF / Methane speed | Diesel-/AdBlue-/Methan-Geschwindigkeit | 0–100000 % | 100 % |
+| **fillCharge.instant** | Instantly fill Diesel / DEF / Methane | Diesel/AdBlue/Methan sofort auffüllen | ON / OFF | OFF |
+| **electricCharge.speedPercent** | Electric charge speed | Lade­geschwindigkeit Strom | 0–100000 % | 100 % |
+| **electricCharge.instant** | Instantly charge electric vehicles | Elektrofahrzeuge sofort laden | ON / OFF | OFF |
+| **electricCharge.useTimeScale** | Scale electric charging with time scale | Laden mit Zeitraffer skalieren | ON / OFF | ON |
+| **trigger.cooldownSeconds** | Cooldown before re-servicing the same vehicle | Abklingzeit vor erneuter Bedienung | 0–86400 s | 10 s |
+| **access.requireFarmAccess** | Only service vehicles your farm has access to | Nur Fahrzeuge mit Zugriffsrecht bedienen | ON / OFF | ON |
 
 </div>
 <br>

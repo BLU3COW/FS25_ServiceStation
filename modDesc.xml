@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="113">
     <author>BLU3COW</author>
-    <version>1.0.0.0</version>
+    <version>1.0.0.1</version>
 
     <title>
         <en>ServiceStation</en>
@@ -27,6 +27,12 @@ Length 0.5–40 meters
 
 The settings for price, minimum requirement, and fill rate (% and immediate) can be adjusted in modSettings. AutoDrive is supported.
 
+Changelog 1.0.0.1:
+- Fixed servicing newly attached vehicles inside an active station trigger.
+- Fixed AutoDrive availability and vehicle-specific refueling state.
+- Fixed charging information for multiplayer clients.
+- Added robust settings validation and the missing AutoDrive XML schema entry.
+
 Source code, help and issue reports: https://github.com/BLU3COW/FS25_ServiceStation]]></en>
         <de><![CDATA[ServiceStation
 Shopkategorie: Diverses
@@ -46,6 +52,13 @@ Breite 2-20 Meter
 Länge 0,5-40 Meter 
 
 Die Einstellungen zum Preis, Mindestanforderung, Füllgeschwindigkeit (% und sofort) können in modSettings angepasst werden. AutoDrive wird unterstützt.
+
+Changelog 1.0.0.1:
+- Bedienung neu angehängter Fahrzeuge innerhalb eines aktiven Stations-Triggers korrigiert.
+- AutoDrive-Verfügbarkeit und fahrzeugspezifischen Tankstatus korrigiert.
+- Ladeinformationen für Multiplayer-Clients korrigiert.
+- Robuste Einstellungsprüfung und fehlenden AutoDrive-XML-Schemaeintrag ergänzt.
+
 Quellcode, Hilfe und Fehlermeldungen: https://github.com/BLU3COW/FS25_ServiceStation]]></de>
         <fr><![CDATA[ServiceStation
 Catégorie: Divers
@@ -65,6 +78,12 @@ Largeur : 2 à 20 mètres
 Longueur : 0,5 à 40 mètres 
 
 Les paramètres relatifs au prix, aux exigences minimales et à la vitesse de remplissage (en % et immédiate) peuvent être ajustés dans modSettings. La fonction AutoDrive est prise en charge.
+
+Changelog 1.0.0.1 :
+- Correction de l'entretien des véhicules nouvellement attelés dans une zone active.
+- Correction de la disponibilité AutoDrive et de l'état de ravitaillement par véhicule.
+- Correction des informations de recharge pour les clients multijoueurs.
+- Ajout d'une validation robuste des paramètres et de l'entrée de schéma XML AutoDrive manquante.
 
 Code source, aide et signalement de problèmes : https://github.com/BLU3COW/FS25_ServiceStation]]></fr>
     </description>

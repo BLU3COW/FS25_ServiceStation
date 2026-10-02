@@ -4,6 +4,9 @@ local Service = ServiceStation
 local modDirectory = g_currentModDirectory or ""
 local SETTINGS_ROOT = "ServiceStationSettings"
 local SETTINGS_KEY = SETTINGS_ROOT .. ".settings"
+local MAX_PRICE_PERCENT = 100000
+local MAX_SPEED_PERCENT = 100000
+local MAX_COOLDOWN_SECONDS = 86400
 
 Service.CONFIG_MODE = "ServiceStationMode"
 Service.CONFIG_WIDTH = "ServiceStationWidth"
@@ -20,6 +23,33 @@ Service.settings = Service.settings
         cooldownSeconds = 10,
         requireFarmAccess = true,
     }
+
+local function normalizeSettingNumber(value, defaultValue, maximum)
+    value = tonumber(value)
+    if value == nil or value ~= value or value == math.huge or value == -math.huge then
+        value = defaultValue
+    end
+    return math.clamp(value, 0, maximum)
+end
+
+local function normalizeSettings(settings)
+    settings = settings or {}
+    return {
+        pricePercent = normalizeSettingNumber(settings.pricePercent, 100, MAX_PRICE_PERCENT),
+        washMinimumDirtPercent = normalizeSettingNumber(settings.washMinimumDirtPercent, 5, 100),
+        fillChargeSpeedPercent = normalizeSettingNumber(settings.fillChargeSpeedPercent, 100, MAX_SPEED_PERCENT),
+        fillChargeInstant = settings.fillChargeInstant == true,
+        electricChargeSpeedPercent = normalizeSettingNumber(
+            settings.electricChargeSpeedPercent,
+            100,
+            MAX_SPEED_PERCENT
+        ),
+        electricChargeInstant = settings.electricChargeInstant == true,
+        electricChargeUseTimeScale = settings.electricChargeUseTimeScale ~= false,
+        cooldownSeconds = normalizeSettingNumber(settings.cooldownSeconds, 10, MAX_COOLDOWN_SECONDS),
+        requireFarmAccess = settings.requireFarmAccess ~= false,
+    }
+end
 
 ServiceStationConfigurationItem = {}
 local ServiceStationConfigurationItem_mt = Class(ServiceStationConfigurationItem, PlaceableConfigurationItem)
@@ -156,17 +186,10 @@ local function setCompactXMLNumber(xmlFile, key, value)
 end
 
 function Service.applySettings(settings)
-    settings = settings or {}
-
-    Service.settings.pricePercent = math.max(tonumber(settings.pricePercent) or 100, 0)
-    Service.settings.washMinimumDirtPercent = math.clamp(tonumber(settings.washMinimumDirtPercent) or 5, 0, 100)
-    Service.settings.fillChargeSpeedPercent = math.max(tonumber(settings.fillChargeSpeedPercent) or 100, 0)
-    Service.settings.fillChargeInstant = settings.fillChargeInstant == true
-    Service.settings.electricChargeSpeedPercent = math.max(tonumber(settings.electricChargeSpeedPercent) or 100, 0)
-    Service.settings.electricChargeInstant = settings.electricChargeInstant == true
-    Service.settings.electricChargeUseTimeScale = settings.electricChargeUseTimeScale ~= false
-    Service.settings.cooldownSeconds = math.max(tonumber(settings.cooldownSeconds) or 10, 0)
-    Service.settings.requireFarmAccess = settings.requireFarmAccess ~= false
+    local normalized = normalizeSettings(settings)
+    for key, value in pairs(normalized) do
+        Service.settings[key] = value
+    end
 end
 
 local function loadSettingsFile(filename)
@@ -275,19 +298,23 @@ function Service.loadSettings()
 end
 
 function Service.getPriceFactor()
-    return math.max(tonumber(Service.settings.pricePercent) or 100, 0) / 100
+    return normalizeSettingNumber(Service.settings.pricePercent, 100, MAX_PRICE_PERCENT) / 100
 end
 
 function Service.getWashMinimumDirt()
-    return math.clamp(tonumber(Service.settings.washMinimumDirtPercent) or 5, 0, 100) / 100
+    return normalizeSettingNumber(Service.settings.washMinimumDirtPercent, 5, 100) / 100
 end
 
 function Service.getElectricChargeSpeedFactor()
-    return math.max(tonumber(Service.settings.electricChargeSpeedPercent) or 100, 0) / 100
+    return normalizeSettingNumber(Service.settings.electricChargeSpeedPercent, 100, MAX_SPEED_PERCENT) / 100
 end
 
 function Service.getFillChargeSpeedFactor()
-    return math.max(tonumber(Service.settings.fillChargeSpeedPercent) or 100, 0) / 100
+    return normalizeSettingNumber(Service.settings.fillChargeSpeedPercent, 100, MAX_SPEED_PERCENT) / 100
+end
+
+function Service.getCooldownSeconds()
+    return normalizeSettingNumber(Service.settings.cooldownSeconds, 10, MAX_COOLDOWN_SECONDS)
 end
 
 ServiceStationSettingsEvent = {}
@@ -300,28 +327,28 @@ end
 
 function ServiceStationSettingsEvent.new(settings)
     local self = ServiceStationSettingsEvent.emptyNew()
-    self.pricePercent = math.max(tonumber(settings.pricePercent) or 100, 0)
-    self.washMinimumDirtPercent = math.clamp(tonumber(settings.washMinimumDirtPercent) or 5, 0, 100)
-    self.fillChargeSpeedPercent = math.max(tonumber(settings.fillChargeSpeedPercent) or 100, 0)
-    self.fillChargeInstant = settings.fillChargeInstant == true
-    self.electricChargeSpeedPercent = math.max(tonumber(settings.electricChargeSpeedPercent) or 100, 0)
-    self.electricChargeInstant = settings.electricChargeInstant == true
-    self.electricChargeUseTimeScale = settings.electricChargeUseTimeScale ~= false
-    self.cooldownSeconds = math.max(tonumber(settings.cooldownSeconds) or 10, 0)
-    self.requireFarmAccess = settings.requireFarmAccess ~= false
+    local normalized = normalizeSettings(settings)
+    for key, value in pairs(normalized) do
+        self[key] = value
+    end
     return self
 end
 
 function ServiceStationSettingsEvent:readStream(streamId, connection)
-    self.pricePercent = math.max(streamReadFloat32(streamId), 0)
+    self.pricePercent = streamReadFloat32(streamId)
     self.washMinimumDirtPercent = math.clamp(streamReadFloat32(streamId), 0, 100)
-    self.fillChargeSpeedPercent = math.max(streamReadFloat32(streamId), 0)
+    self.fillChargeSpeedPercent = streamReadFloat32(streamId)
     self.fillChargeInstant = streamReadBool(streamId)
-    self.electricChargeSpeedPercent = math.max(streamReadFloat32(streamId), 0)
+    self.electricChargeSpeedPercent = streamReadFloat32(streamId)
     self.electricChargeInstant = streamReadBool(streamId)
     self.electricChargeUseTimeScale = streamReadBool(streamId)
-    self.cooldownSeconds = math.max(streamReadFloat32(streamId), 0)
+    self.cooldownSeconds = streamReadFloat32(streamId)
     self.requireFarmAccess = streamReadBool(streamId)
+
+    local normalized = normalizeSettings(self)
+    for key, value in pairs(normalized) do
+        self[key] = value
+    end
     self:run(connection)
 end
 
