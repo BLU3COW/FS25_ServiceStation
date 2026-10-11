@@ -74,6 +74,8 @@ Wähle direkt im Baumodus vor dem Platzieren zwischen den Modi <strong>Full</str
 
 <div align="center">
 
+<img width="1600" height="900" alt="servicestation-ai" src=".github/assets/screenshots/servicestation_ai.png" />
+
 <img width="1600" height="900" alt="servicestation-gif" src=".github/assets/screenshots/servicestation-gif.gif" />
 
 </div>
