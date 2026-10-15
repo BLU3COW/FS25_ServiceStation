@@ -289,19 +289,31 @@ local function isVehicleObjectValid(vehicle)
 end
 
 local function getElectricChargeState(vehicleChain)
+    local selectedVehicle = nil
+    local selectedFillLevel = 0
+    local selectedCapacity = 0
+    local selectedRemaining = -1
+
     for _, vehicle in ipairs(vehicleChain) do
         if vehicle.getConsumerFillUnitIndex ~= nil then
             local fillUnitIndex = vehicle:getConsumerFillUnitIndex(FillType.ELECTRICCHARGE)
             if fillUnitIndex ~= nil and vehicle.getFillUnitFillLevel ~= nil and vehicle.getFillUnitCapacity ~= nil then
                 local capacity = vehicle:getFillUnitCapacity(fillUnitIndex)
                 if capacity ~= nil and capacity > 0 and capacity < math.huge then
-                    return vehicle, vehicle:getFillUnitFillLevel(fillUnitIndex) or 0, capacity
+                    local fillLevel = vehicle:getFillUnitFillLevel(fillUnitIndex) or 0
+                    local remaining = math.max(capacity - fillLevel, 0)
+                    if remaining > selectedRemaining then
+                        selectedVehicle = vehicle
+                        selectedFillLevel = fillLevel
+                        selectedCapacity = capacity
+                        selectedRemaining = remaining
+                    end
                 end
             end
         end
     end
 
-    return nil, 0, 0
+    return selectedVehicle, selectedFillLevel, selectedCapacity
 end
 
 local function getVehicleMaxDirtAmount(vehicle)

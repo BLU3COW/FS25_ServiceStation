@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="113">
     <author>BLU3COW</author>
-    <version>1.0.0.1</version>
+    <version>1.0.0.2</version>
 
     <title>
         <en>ServiceStation</en>
@@ -18,7 +18,7 @@ Customizable ServiceStation for washing, repairs, painting, refueling, and charg
 Modes:
 - Full (Washing, repairs, painting, refueling, and charging)
 - Service (Repairs and painting)
-- Refuel (refueling and charging)
+- Tank (refueling and charging)
 - Wash (washing)
 
 Size:
@@ -26,6 +26,9 @@ Width 2–20 meters
 Length 0.5–40 meters 
 
 The settings for price, minimum requirement, and fill rate (% and immediate) can be adjusted in modSettings. AutoDrive is supported.
+
+Changelog 1.0.0.2:
+- Fixed the charging display for vehicle combinations with multiple electric consumers.
 
 Changelog 1.0.0.1:
 - Fixed servicing newly attached vehicles inside an active station trigger.
@@ -53,6 +56,9 @@ Länge 0,5-40 Meter
 
 Die Einstellungen zum Preis, Mindestanforderung, Füllgeschwindigkeit (% und sofort) können in modSettings angepasst werden. AutoDrive wird unterstützt.
 
+Changelog 1.0.0.2:
+- Ladeanzeige für Fahrzeugkombinationen mit mehreren elektrischen Verbrauchern korrigiert.
+
 Changelog 1.0.0.1:
 - Bedienung neu angehängter Fahrzeuge innerhalb eines aktiven Stations-Triggers korrigiert.
 - AutoDrive-Verfügbarkeit und fahrzeugspezifischen Tankstatus korrigiert.
@@ -78,6 +84,9 @@ Largeur : 2 à 20 mètres
 Longueur : 0,5 à 40 mètres 
 
 Les paramètres relatifs au prix, aux exigences minimales et à la vitesse de remplissage (en % et immédiate) peuvent être ajustés dans modSettings. La fonction AutoDrive est prise en charge.
+
+Changelog 1.0.0.2 :
+- Correction de l'affichage de la recharge pour les ensembles comportant plusieurs consommateurs électriques.
 
 Changelog 1.0.0.1 :
 - Correction de l'entretien des véhicules nouvellement attelés dans une zone active.
