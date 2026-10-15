@@ -97,7 +97,7 @@ Changelog 1.0.0.1 :
 Code source, aide et signalement de problèmes : https://github.com/BLU3COW/FS25_ServiceStation]]></fr>
     </description>
 
-    <iconFilename>dds/icon_ServiceStation.dds</iconFilename>
+    <iconFilename>icon_ServiceStation.dds</iconFilename>
     <multiplayer supported="true" />
     <l10n filenamePrefix="l10n/l10n" />
 
