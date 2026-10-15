@@ -15,8 +15,12 @@ Service.settings = Service.settings
     or {
         pricePercent = 100,
         washMinimumDirtPercent = 5,
+        repairMinimumDamagePercent = 10,
+        repaintMinimumWearPercent = 20,
+        fillChargeStartBelowPercent = 80,
         fillChargeSpeedPercent = 100,
         fillChargeInstant = false,
+        electricChargeStartBelowPercent = 80,
         electricChargeSpeedPercent = 100,
         electricChargeInstant = false,
         electricChargeUseTimeScale = true,
@@ -37,8 +41,12 @@ local function normalizeSettings(settings)
     return {
         pricePercent = normalizeSettingNumber(settings.pricePercent, 100, MAX_PRICE_PERCENT),
         washMinimumDirtPercent = normalizeSettingNumber(settings.washMinimumDirtPercent, 5, 100),
+        repairMinimumDamagePercent = normalizeSettingNumber(settings.repairMinimumDamagePercent, 10, 100),
+        repaintMinimumWearPercent = normalizeSettingNumber(settings.repaintMinimumWearPercent, 20, 100),
+        fillChargeStartBelowPercent = normalizeSettingNumber(settings.fillChargeStartBelowPercent, 80, 100),
         fillChargeSpeedPercent = normalizeSettingNumber(settings.fillChargeSpeedPercent, 100, MAX_SPEED_PERCENT),
         fillChargeInstant = settings.fillChargeInstant == true,
+        electricChargeStartBelowPercent = normalizeSettingNumber(settings.electricChargeStartBelowPercent, 80, 100),
         electricChargeSpeedPercent = normalizeSettingNumber(
             settings.electricChargeSpeedPercent,
             100,
@@ -50,6 +58,8 @@ local function normalizeSettings(settings)
         requireFarmAccess = settings.requireFarmAccess ~= false,
     }
 end
+
+Service.settings = normalizeSettings(Service.settings)
 
 ServiceStationConfigurationItem = {}
 local ServiceStationConfigurationItem_mt = Class(ServiceStationConfigurationItem, PlaceableConfigurationItem)
@@ -209,6 +219,21 @@ local function loadSettingsFile(filename)
             SETTINGS_KEY .. ".wash#minimumDirtPercent",
             Service.settings.washMinimumDirtPercent
         ),
+        repairMinimumDamagePercent = getFloatValue(
+            xmlFile,
+            SETTINGS_KEY .. ".repair#minimumDamagePercent",
+            Service.settings.repairMinimumDamagePercent
+        ),
+        repaintMinimumWearPercent = getFloatValue(
+            xmlFile,
+            SETTINGS_KEY .. ".repaint#minimumWearPercent",
+            Service.settings.repaintMinimumWearPercent
+        ),
+        fillChargeStartBelowPercent = getFloatValue(
+            xmlFile,
+            SETTINGS_KEY .. ".fillCharge#startBelowPercent",
+            Service.settings.fillChargeStartBelowPercent
+        ),
         fillChargeSpeedPercent = getFloatValue(
             xmlFile,
             SETTINGS_KEY .. ".fillCharge#speedPercent",
@@ -218,6 +243,11 @@ local function loadSettingsFile(filename)
             xmlFile,
             SETTINGS_KEY .. ".fillCharge#instant",
             Service.settings.fillChargeInstant
+        ),
+        electricChargeStartBelowPercent = getFloatValue(
+            xmlFile,
+            SETTINGS_KEY .. ".electricCharge#startBelowPercent",
+            Service.settings.electricChargeStartBelowPercent
         ),
         electricChargeSpeedPercent = getFloatValue(
             xmlFile,
@@ -258,8 +288,28 @@ local function writeSettingsFile(filename)
 
     setCompactXMLNumber(xmlFile, SETTINGS_KEY .. ".price#percent", Service.settings.pricePercent)
     setCompactXMLNumber(xmlFile, SETTINGS_KEY .. ".wash#minimumDirtPercent", Service.settings.washMinimumDirtPercent)
+    setCompactXMLNumber(
+        xmlFile,
+        SETTINGS_KEY .. ".repair#minimumDamagePercent",
+        Service.settings.repairMinimumDamagePercent
+    )
+    setCompactXMLNumber(
+        xmlFile,
+        SETTINGS_KEY .. ".repaint#minimumWearPercent",
+        Service.settings.repaintMinimumWearPercent
+    )
+    setCompactXMLNumber(
+        xmlFile,
+        SETTINGS_KEY .. ".fillCharge#startBelowPercent",
+        Service.settings.fillChargeStartBelowPercent
+    )
     setCompactXMLNumber(xmlFile, SETTINGS_KEY .. ".fillCharge#speedPercent", Service.settings.fillChargeSpeedPercent)
     setXMLBool(xmlFile, SETTINGS_KEY .. ".fillCharge#instant", Service.settings.fillChargeInstant == true)
+    setCompactXMLNumber(
+        xmlFile,
+        SETTINGS_KEY .. ".electricCharge#startBelowPercent",
+        Service.settings.electricChargeStartBelowPercent
+    )
     setCompactXMLNumber(
         xmlFile,
         SETTINGS_KEY .. ".electricCharge#speedPercent",
@@ -305,6 +355,22 @@ function Service.getWashMinimumDirt()
     return normalizeSettingNumber(Service.settings.washMinimumDirtPercent, 5, 100) / 100
 end
 
+function Service.getRepairMinimumDamage()
+    return normalizeSettingNumber(Service.settings.repairMinimumDamagePercent, 10, 100) / 100
+end
+
+function Service.getRepaintMinimumWear()
+    return normalizeSettingNumber(Service.settings.repaintMinimumWearPercent, 20, 100) / 100
+end
+
+function Service.getFillChargeStartBelow()
+    return normalizeSettingNumber(Service.settings.fillChargeStartBelowPercent, 80, 100) / 100
+end
+
+function Service.getElectricChargeStartBelow()
+    return normalizeSettingNumber(Service.settings.electricChargeStartBelowPercent, 80, 100) / 100
+end
+
 function Service.getElectricChargeSpeedFactor()
     return normalizeSettingNumber(Service.settings.electricChargeSpeedPercent, 100, MAX_SPEED_PERCENT) / 100
 end
@@ -337,8 +403,12 @@ end
 function ServiceStationSettingsEvent:readStream(streamId, connection)
     self.pricePercent = streamReadFloat32(streamId)
     self.washMinimumDirtPercent = math.clamp(streamReadFloat32(streamId), 0, 100)
+    self.repairMinimumDamagePercent = math.clamp(streamReadFloat32(streamId), 0, 100)
+    self.repaintMinimumWearPercent = math.clamp(streamReadFloat32(streamId), 0, 100)
+    self.fillChargeStartBelowPercent = math.clamp(streamReadFloat32(streamId), 0, 100)
     self.fillChargeSpeedPercent = streamReadFloat32(streamId)
     self.fillChargeInstant = streamReadBool(streamId)
+    self.electricChargeStartBelowPercent = math.clamp(streamReadFloat32(streamId), 0, 100)
     self.electricChargeSpeedPercent = streamReadFloat32(streamId)
     self.electricChargeInstant = streamReadBool(streamId)
     self.electricChargeUseTimeScale = streamReadBool(streamId)
@@ -355,8 +425,12 @@ end
 function ServiceStationSettingsEvent:writeStream(streamId, connection)
     streamWriteFloat32(streamId, self.pricePercent)
     streamWriteFloat32(streamId, self.washMinimumDirtPercent)
+    streamWriteFloat32(streamId, self.repairMinimumDamagePercent)
+    streamWriteFloat32(streamId, self.repaintMinimumWearPercent)
+    streamWriteFloat32(streamId, self.fillChargeStartBelowPercent)
     streamWriteFloat32(streamId, self.fillChargeSpeedPercent)
     streamWriteBool(streamId, self.fillChargeInstant == true)
+    streamWriteFloat32(streamId, self.electricChargeStartBelowPercent)
     streamWriteFloat32(streamId, self.electricChargeSpeedPercent)
     streamWriteBool(streamId, self.electricChargeInstant == true)
     streamWriteBool(streamId, self.electricChargeUseTimeScale ~= false)

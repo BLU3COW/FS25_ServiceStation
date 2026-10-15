@@ -28,6 +28,8 @@ Length 0.5–40 meters
 The settings for price, minimum requirement, and fill rate (% and immediate) can be adjusted in modSettings. AutoDrive is supported.
 
 Changelog 1.0.0.2:
+- Added configurable minimum thresholds for repair, repaint, refueling, and charging.
+- Refueling and charging now continue to full only after starting below their configured level.
 - Fixed the charging display for vehicle combinations with multiple electric consumers.
 
 Changelog 1.0.0.1:
@@ -57,6 +59,8 @@ Länge 0,5-40 Meter
 Die Einstellungen zum Preis, Mindestanforderung, Füllgeschwindigkeit (% und sofort) können in modSettings angepasst werden. AutoDrive wird unterstützt.
 
 Changelog 1.0.0.2:
+- Konfigurierbare Mindestgrenzen für Reparieren, Lackieren, Tanken und Laden ergänzt.
+- Tanken und Laden laufen nur dann bis voll, wenn sie unterhalb des eingestellten Füllstands beginnen.
 - Ladeanzeige für Fahrzeugkombinationen mit mehreren elektrischen Verbrauchern korrigiert.
 
 Changelog 1.0.0.1:
@@ -86,6 +90,8 @@ Longueur : 0,5 à 40 mètres
 Les paramètres relatifs au prix, aux exigences minimales et à la vitesse de remplissage (en % et immédiate) peuvent être ajustés dans modSettings. La fonction AutoDrive est prise en charge.
 
 Changelog 1.0.0.2 :
+- Ajout de seuils minimaux configurables pour la réparation, la peinture, le ravitaillement et la recharge.
+- Le ravitaillement et la recharge se poursuivent jusqu'au maximum uniquement s'ils commencent sous le niveau configuré.
 - Correction de l'affichage de la recharge pour les ensembles comportant plusieurs consommateurs électriques.
 
 Changelog 1.0.0.1 :

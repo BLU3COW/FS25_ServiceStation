@@ -288,27 +288,85 @@ local function isVehicleObjectValid(vehicle)
         and vehicle.rootNode ~= 0
 end
 
-local function getElectricChargeState(vehicleChain)
+local function getEnergyConsumerState(vehicle, fillTypeIndex)
+    if
+        vehicle == nil
+        or vehicle.getConsumerFillUnitIndex == nil
+        or vehicle.getFillUnitFillLevel == nil
+        or vehicle.getFillUnitCapacity == nil
+    then
+        return nil
+    end
+
+    local fillUnitIndex = vehicle:getConsumerFillUnitIndex(fillTypeIndex)
+    if fillUnitIndex == nil then
+        return nil
+    end
+
+    local capacity = vehicle:getFillUnitCapacity(fillUnitIndex)
+    local fillLevel = vehicle:getFillUnitFillLevel(fillUnitIndex)
+    if capacity == nil or fillLevel == nil or capacity <= 0 or capacity >= math.huge then
+        return nil
+    end
+
+    return fillUnitIndex, fillLevel, capacity
+end
+
+local function getEnergyConsumerEligibility(station, vehicle, fillTypeIndex, fillLevel, capacity)
+    local spec = station ~= nil and station.spec_ServiceStation or nil
+    if spec == nil or spec.energyEligibleConsumers == nil then
+        return false
+    end
+
+    local vehicleEligibility = spec.energyEligibleConsumers[vehicle]
+    if vehicleEligibility == nil then
+        vehicleEligibility = {}
+        spec.energyEligibleConsumers[vehicle] = vehicleEligibility
+    end
+
+    local eligible = vehicleEligibility[fillTypeIndex]
+    if eligible == nil then
+        local startBelow = Service.getFillChargeStartBelow()
+        if fillTypeIndex == FillType.ELECTRICCHARGE then
+            startBelow = Service.getElectricChargeStartBelow()
+        end
+        eligible = fillLevel / capacity < startBelow
+        vehicleEligibility[fillTypeIndex] = eligible
+    end
+
+    return eligible
+end
+
+local function initializeEnergyEligibility(station, vehicle)
+    local fillTypes = { FillType.DIESEL, FillType.DEF, FillType.METHANE, FillType.ELECTRICCHARGE }
+    for _, fillTypeIndex in pairs(fillTypes) do
+        if fillTypeIndex ~= nil then
+            local _, fillLevel, capacity = getEnergyConsumerState(vehicle, fillTypeIndex)
+            if fillLevel ~= nil then
+                getEnergyConsumerEligibility(station, vehicle, fillTypeIndex, fillLevel, capacity)
+            end
+        end
+    end
+end
+
+local function getElectricChargeState(station, vehicleChain)
     local selectedVehicle = nil
     local selectedFillLevel = 0
     local selectedCapacity = 0
     local selectedRemaining = -1
 
     for _, vehicle in ipairs(vehicleChain) do
-        if vehicle.getConsumerFillUnitIndex ~= nil then
-            local fillUnitIndex = vehicle:getConsumerFillUnitIndex(FillType.ELECTRICCHARGE)
-            if fillUnitIndex ~= nil and vehicle.getFillUnitFillLevel ~= nil and vehicle.getFillUnitCapacity ~= nil then
-                local capacity = vehicle:getFillUnitCapacity(fillUnitIndex)
-                if capacity ~= nil and capacity > 0 and capacity < math.huge then
-                    local fillLevel = vehicle:getFillUnitFillLevel(fillUnitIndex) or 0
-                    local remaining = math.max(capacity - fillLevel, 0)
-                    if remaining > selectedRemaining then
-                        selectedVehicle = vehicle
-                        selectedFillLevel = fillLevel
-                        selectedCapacity = capacity
-                        selectedRemaining = remaining
-                    end
-                end
+        local _, fillLevel, capacity = getEnergyConsumerState(vehicle, FillType.ELECTRICCHARGE)
+        if
+            fillLevel ~= nil
+            and getEnergyConsumerEligibility(station, vehicle, FillType.ELECTRICCHARGE, fillLevel, capacity)
+        then
+            local remaining = math.max(capacity - fillLevel, 0)
+            if remaining > selectedRemaining then
+                selectedVehicle = vehicle
+                selectedFillLevel = fillLevel
+                selectedCapacity = capacity
+                selectedRemaining = remaining
             end
         end
     end
@@ -415,6 +473,7 @@ function Service:onLoad(savegame)
     spec.fillCompletedRoots = {}
     spec.electricCompletedRoots = {}
     spec.energyAccumulatorMs = {}
+    spec.energyEligibleConsumers = setmetatable({}, { __mode = "k" })
     spec.autoDriveRefuelTrigger = nil
     spec.autoDriveLoadingStation = nil
     spec.autoDrivePreviousLoadingStation = nil
@@ -674,6 +733,7 @@ function Service:ServiceStationOnVehicleDeleted(vehicle)
     spec.triggerVehicles[vehicle] = nil
     spec.triggerSessionVehicles[vehicle] = nil
     spec.lastServiceTimes[vehicle] = nil
+    spec.energyEligibleConsumers[vehicle] = nil
 
     self:ServiceStationRefreshActiveRoots(self.isServer)
     if self.raiseActive ~= nil then
@@ -684,6 +744,7 @@ end
 function Service:ServiceStationRefreshActiveRoots(processNewRoots)
     local spec = self.spec_ServiceStation
     local currentRoots = {}
+    local currentVehicles = {}
 
     for vehicle, count in pairs(spec.triggerVehicles) do
         if count > 0 and isVehicleObjectValid(vehicle) then
@@ -704,8 +765,20 @@ function Service:ServiceStationRefreshActiveRoots(processNewRoots)
         end
     end
 
+    for _, rootData in pairs(currentRoots) do
+        rootData.vehicleChain = self:ServiceStationGetVehicleChain(rootData.rootVehicle)
+        for _, chainVehicle in ipairs(rootData.vehicleChain) do
+            currentVehicles[chainVehicle] = true
+        end
+    end
+
     for rootKey in pairs(spec.activeRoots) do
         if currentRoots[rootKey] == nil then
+            for previousVehicle in pairs(spec.activeRootVehicles[rootKey] or {}) do
+                if currentVehicles[previousVehicle] ~= true then
+                    spec.energyEligibleConsumers[previousVehicle] = nil
+                end
+            end
             spec.activeRoots[rootKey] = nil
             spec.activeRootHashes[rootKey] = nil
             spec.activeRootVehicles[rootKey] = nil
@@ -721,8 +794,14 @@ function Service:ServiceStationRefreshActiveRoots(processNewRoots)
         local chainChanged = wasActive and spec.activeRootHashes[rootKey] ~= rootData.chainHash
         local previousRootVehicles = spec.activeRootVehicles[rootKey] or {}
         local currentRootVehicles = {}
-        for _, chainVehicle in ipairs(self:ServiceStationGetVehicleChain(rootData.rootVehicle)) do
+        for _, chainVehicle in ipairs(rootData.vehicleChain) do
             currentRootVehicles[chainVehicle] = true
+            initializeEnergyEligibility(self, chainVehicle)
+        end
+        for previousVehicle in pairs(previousRootVehicles) do
+            if currentRootVehicles[previousVehicle] ~= true and currentVehicles[previousVehicle] ~= true then
+                spec.energyEligibleConsumers[previousVehicle] = nil
+            end
         end
         local wasAlreadyPresent = false
         for vehicle in pairs(rootData.triggerVehicles) do
@@ -903,17 +982,12 @@ function Service.ServiceStationVehicleHasPendingFillType(station, vehicle, fillT
         return false
     end
 
-    local fillUnitIndex = vehicle:getConsumerFillUnitIndex(fillTypeIndex)
-    if fillUnitIndex == nil then
+    local _, fillLevel, capacity = getEnergyConsumerState(vehicle, fillTypeIndex)
+    if fillLevel == nil then
         return false
     end
 
-    local capacity = vehicle:getFillUnitCapacity(fillUnitIndex)
-    local fillLevel = vehicle:getFillUnitFillLevel(fillUnitIndex)
-    return capacity ~= nil
-        and fillLevel ~= nil
-        and capacity > 0
-        and capacity < math.huge
+    return getEnergyConsumerEligibility(station, vehicle, fillTypeIndex, fillLevel, capacity)
         and capacity - fillLevel > FILL_EPSILON
 end
 
@@ -1075,7 +1149,7 @@ function Service:ServiceStationShowChargeInfo(rootVehicle)
     end
 
     local vehicleChain = self:ServiceStationGetVehicleChain(rootVehicle)
-    local vehicle, fillLevel, capacity = getElectricChargeState(vehicleChain)
+    local vehicle, fillLevel, capacity = getElectricChargeState(self, vehicleChain)
     if vehicle == nil then
         return
     end
@@ -1169,7 +1243,12 @@ function Service:ServiceStationWashVehicle(vehicle)
 end
 
 function Service:ServiceStationRepairVehicle(vehicle)
-    if vehicle.getDamageAmount == nil or vehicle:getDamageAmount() <= 0.0001 then
+    if vehicle.getDamageAmount == nil then
+        return false
+    end
+
+    local damageAmount = vehicle:getDamageAmount()
+    if damageAmount == nil or damageAmount <= FILL_EPSILON or damageAmount < Service.getRepairMinimumDamage() then
         return false
     end
 
@@ -1202,7 +1281,12 @@ function Service:ServiceStationRepairVehicle(vehicle)
 end
 
 function Service:ServiceStationRepaintVehicle(vehicle)
-    if vehicle.getWearTotalAmount == nil or vehicle:getWearTotalAmount() <= 0.0001 then
+    if vehicle.getWearTotalAmount == nil then
+        return false
+    end
+
+    local wearAmount = vehicle:getWearTotalAmount()
+    if wearAmount == nil or wearAmount <= FILL_EPSILON or wearAmount < Service.getRepaintMinimumWear() then
         return false
     end
 
@@ -1241,15 +1325,13 @@ function Service:ServiceStationFillConsumer(vehicle, fillTypeIndex, maxLiters, s
         return 0, false, true
     end
 
-    local fillUnitIndex = vehicle:getConsumerFillUnitIndex(fillTypeIndex)
+    local fillUnitIndex, fillLevel, capacity = getEnergyConsumerState(vehicle, fillTypeIndex)
     if fillUnitIndex == nil then
         return 0, false, true
     end
 
-    local capacity = vehicle:getFillUnitCapacity(fillUnitIndex)
-    local fillLevel = vehicle:getFillUnitFillLevel(fillUnitIndex)
-    if capacity == nil or fillLevel == nil or capacity <= 0 or capacity >= math.huge then
-        return 0, false, true
+    if not getEnergyConsumerEligibility(self, vehicle, fillTypeIndex, fillLevel, capacity) then
+        return 0, true, true
     end
 
     local remaining = math.max(capacity - fillLevel, 0)
