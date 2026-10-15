@@ -146,8 +146,12 @@ Wähle direkt im Baumodus vor dem Platzieren zwischen den Modi <strong>Full</str
 | --- | --- | --- | --- | --- |
 | **price.percent** | Price scaling | Preis-Skalierung | 0–100000 % | 100 % |
 | **wash.minimumDirtPercent** | Minimum dirt before washing | Mindestverschmutzung fürs Waschen | 0–100 % | 5 % |
+| **repair.minimumDamagePercent** | Minimum damage before repair | Mindestschaden fürs Reparieren | 0–100 % | 10 % |
+| **repaint.minimumWearPercent** | Minimum wear before repainting | Mindestverschleiß fürs Lackieren | 0–100 % | 20 % |
+| **fillCharge.startBelowPercent** | Start filling Diesel / DEF / Methane below this level | Diesel/AdBlue/Methan unter diesem Füllstand auffüllen | 0–100 % | 80 % |
 | **fillCharge.speedPercent** | Diesel / DEF / Methane speed | Diesel-/AdBlue-/Methan-Geschwindigkeit | 0–100000 % | 100 % |
 | **fillCharge.instant** | Instantly fill Diesel / DEF / Methane | Diesel/AdBlue/Methan sofort auffüllen | ON / OFF | OFF |
+| **electricCharge.startBelowPercent** | Start electric charging below this level | Strom unter diesem Ladestand nachladen | 0–100 % | 80 % |
 | **electricCharge.speedPercent** | Electric charge speed | Lade­geschwindigkeit Strom | 0–100000 % | 100 % |
 | **electricCharge.instant** | Instantly charge electric vehicles | Elektrofahrzeuge sofort laden | ON / OFF | OFF |
 | **electricCharge.useTimeScale** | Scale electric charging with time scale | Laden mit Zeitraffer skalieren | ON / OFF | ON |
@@ -157,14 +161,14 @@ Wähle direkt im Baumodus vor dem Platzieren zwischen den Modi <strong>Full</str
 </div>
 <br>
 
-<div align="center">By default, prices are unmodified, energy fills over time instead of instantly, and only vehicles your farm has access to are serviced. <strong>price.percent</strong> scales washing, repair, repaint, and fuel/charge prices together. <strong>wash.minimumDirtPercent</strong> avoids washing an already clean vehicle. <strong>fillCharge</strong> and <strong>electricCharge</strong> control how fast Diesel/DEF/Methane and electric charging are filled, or whether they should fill instantly instead. <strong>trigger.cooldownSeconds</strong> prevents the same vehicle chain from being serviced again immediately after leaving and re-entering the trigger, and <strong>access.requireFarmAccess</strong> controls whether other farms can use your station.</div>
+<div align="center">By default, prices are unmodified, energy fills over time instead of instantly, and only vehicles your farm has access to are serviced. <strong>price.percent</strong> scales washing, repair, repaint, and fuel/charge prices together. The washing, repair, and repaint settings prevent service below their configured condition thresholds. <strong>fillCharge.startBelowPercent</strong> and <strong>electricCharge.startBelowPercent</strong> prevent filling when a vehicle enters at or above the configured level; once started, filling continues to full. The remaining <strong>fillCharge</strong> and <strong>electricCharge</strong> settings control filling speed and instant mode. <strong>trigger.cooldownSeconds</strong> prevents the same vehicle chain from being serviced again immediately after leaving and re-entering the trigger, and <strong>access.requireFarmAccess</strong> controls whether other farms can use your station.</div>
 <br>
 <div align="center">
 
 <details>
 <summary><div align="center"><img width="15"  alt="flag-german" src=".github/assets/badges/flag-german.svg" /> ➡️​ <strong>Deutsch</strong> ⬅️ <img width="15"  alt="flag-german" src=".github/assets/badges/flag-german.svg" />​</div></summary>
   <br>
-<div align="center">Standardmäßig sind die Preise unverändert, Energie wird über Zeit statt sofort aufgefüllt, und es werden nur Fahrzeuge bedient, auf die dein Betrieb Zugriff hat. <strong>price.percent</strong> skaliert Wasch-, Reparatur-, Lackier- und Tank-/Ladepreise gemeinsam. <strong>wash.minimumDirtPercent</strong> verhindert das Waschen eines bereits sauberen Fahrzeugs. <strong>fillCharge</strong> und <strong>electricCharge</strong> steuern, wie schnell Diesel/AdBlue/Methan und der Strom-Ladevorgang befüllt werden, oder ob stattdessen sofort aufgefüllt werden soll. <strong>trigger.cooldownSeconds</strong> verhindert, dass dieselbe Fahrzeugkette direkt nach dem Verlassen und erneuten Einfahren sofort wieder bedient wird, und <strong>access.requireFarmAccess</strong> steuert, ob auch andere Betriebe deine Station nutzen können.</div>
+<div align="center">Standardmäßig sind die Preise unverändert, Energie wird über Zeit statt sofort aufgefüllt, und es werden nur Fahrzeuge bedient, auf die dein Betrieb Zugriff hat. <strong>price.percent</strong> skaliert Wasch-, Reparatur-, Lackier- und Tank-/Ladepreise gemeinsam. Die Einstellungen für Waschen, Reparieren und Lackieren verhindern eine Bedienung unterhalb der festgelegten Zustandsgrenzen. <strong>fillCharge.startBelowPercent</strong> und <strong>electricCharge.startBelowPercent</strong> verhindern das Auffüllen, wenn ein Fahrzeug beim Einfahren mindestens den eingestellten Füllstand besitzt; ein gestarteter Vorgang läuft bis voll weiter. Die übrigen <strong>fillCharge</strong>- und <strong>electricCharge</strong>-Einstellungen steuern Geschwindigkeit und Sofortmodus. <strong>trigger.cooldownSeconds</strong> verhindert, dass dieselbe Fahrzeugkette direkt nach dem Verlassen und erneuten Einfahren sofort wieder bedient wird, und <strong>access.requireFarmAccess</strong> steuert, ob auch andere Betriebe deine Station nutzen können.</div>
 </details>
 </div>
 <br>
