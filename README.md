@@ -3,9 +3,9 @@
 
 
 
-<div align="center"><img width="400" alt="servicestation-logo" src="https://github.com/BLU3COW/FS25_ServiceStation/blob/main/.github/assets/logos/servicestation.png" /></div>
+<div align="center"><img width="400" alt="servicestation-logo" src=".github/assets/logos/servicestation.png" /></div>
 
-# <div align="center"><img width="860" height="80" alt="servicestation-title" src="https://github.com/BLU3COW/FS25_ServiceStation/blob/main/.github/assets/badges/servicestation-title.svg" /></div>
+# <div align="center"><img width="860" height="80" alt="servicestation-title" src=".github/assets/badges/servicestation-title.svg" /></div>
 
 <div align="center">
 
@@ -74,6 +74,8 @@ Wähle direkt im Baumodus vor dem Platzieren zwischen den Modi <strong>Full</str
 
 <div align="center">
 
+<img width="1600" height="900" alt="servicestation-ai" src=".github/assets/screenshots/servicestation_ai.png" />
+
 <img width="1600" height="900" alt="servicestation-gif" src=".github/assets/screenshots/servicestation-gif.gif" />
 
 </div>
@@ -82,7 +84,7 @@ Wähle direkt im Baumodus vor dem Platzieren zwischen den Modi <strong>Full</str
 
 
 
-## <div align="center"><img width="185" height="40" alt="modes" src="https://github.com/BLU3COW/FS25_ServiceStation/blob/main/.github/assets/badges/modes.svg" /></div>
+## <div align="center"><img width="185" height="40" alt="modes" src=".github/assets/badges/modes.svg" /></div>
 <div align="center">
 
 | Mode | Wash | Repair | Repaint | Diesel / DEF | Methane | Electric | Default |
@@ -109,7 +111,7 @@ Wähle direkt im Baumodus vor dem Platzieren zwischen den Modi <strong>Full</str
 
 
 
-## <div align="center"><img width="260" height="40" alt="dimensions" src="https://github.com/BLU3COW/FS25_ServiceStation/blob/main/.github/assets/badges/dimensions.svg" /></div>
+## <div align="center"><img width="260" height="40" alt="dimensions" src=".github/assets/badges/dimensions.svg" /></div>
 
 <div align="center">
 
@@ -136,7 +138,7 @@ Wähle direkt im Baumodus vor dem Platzieren zwischen den Modi <strong>Full</str
 
 
 
-## <div align="center"><img width="300" height="40" alt="settings" src="https://github.com/BLU3COW/FS25_ServiceStation/blob/main/.github/assets/badges/settings.svg" /></div>
+## <div align="center"><img width="300" height="40" alt="settings" src=".github/assets/badges/settings.svg" /></div>
 
 <div align="center">
 
@@ -207,7 +209,7 @@ The <strong>„FS25_ServiceStation.xml"</strong> file is created automatically w
 
 
 
-## <div align="center"><img width="460" height="40" alt="planned-updates" src="https://github.com/BLU3COW/FS25_ServiceStation/blob/main/.github/assets/badges/planned-updates.svg" /></div>
+## <div align="center"><img width="460" height="40" alt="planned-updates" src=".github/assets/badges/planned-updates.svg" /></div>
 
 <div align="center">There is no fixed roadmap yet. Ideas currently being considered include additional dimension presets and, further down the line, a dedicated GUI for managing the station settings directly in-game. Suggestions, ideas, and feedback are always welcome via Issues or Discussions.</div>
 
@@ -223,7 +225,7 @@ Es gibt noch keinen festen Fahrplan. Aktuell in Überlegung sind unter anderem z
 
 
 
-## <div align="center"><img width="160" height="40" alt="blu3cow" src="https://github.com/BLU3COW/FS25_ServiceStation/blob/main/.github/assets/badges/blu3cow.svg" /></div>
+## <div align="center"><img width="160" height="40" alt="blu3cow" src=".github/assets/badges/blu3cow.svg" /></div>
 
 <div align="center">So far, many mods and customizations have been created primarily for personal use. Now, some of these projects will gradually be shared with the community. <strong>BLU3COW</strong> isn’t just about script mods. It also includes prefabs, objects, models, and practical customizations for <strong>Farming Simulator</strong>.
 <br>
@@ -248,7 +250,7 @@ Da sich viele Projekte noch in der Entwicklung befinden, sind Feedback, Ideen un
 
 
 
-## <div align="center"><img width="610" height="40" alt="support-the-project" src="https://github.com/BLU3COW/FS25_ServiceStation/blob/main/.github/assets/badges/support-the-project.svg" /></div>
+## <div align="center"><img width="610" height="40" alt="support-the-project" src=".github/assets/badges/support-the-project.svg" /></div>
 
 <div align="center">If you like ServiceStation and find it helpful in the game, you’re welcome to support its continued development via PayPal or with a virtual “Buy Me a Beer.” Every contribution helps us continue to develop new features, improvements, and mods.
 <br>
@@ -276,7 +278,7 @@ Du kannst das Projekt auch aktiv unterstützen, indem du Wünsche, Ideen, Verbes
 </div>
 <br>
 
-## <div align="center"><img width="250" height="40" alt="screenshots" src="https://github.com/BLU3COW/FS25_ServiceStation/blob/main/.github/assets/badges/screenshots.svg" /></div>
+## <div align="center"><img width="250" height="40" alt="screenshots" src=".github/assets/badges/screenshots.svg" /></div>
 
 <div align="center">
 
