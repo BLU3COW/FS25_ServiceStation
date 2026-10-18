@@ -3,6 +3,10 @@
     <texts>
         <text name="function_ServiceStation" text="Automatische Durchfahrstation" />
         <text name="configuration_ServiceStationMode" text="Modus" />
+        <text name="configuration_ServiceStationModeService" text="Service" />
+        <text name="configuration_ServiceStationModeWash" text="Waschen" />
+        <text name="configuration_ServiceStationModeTank" text="Tanken" />
+        <text name="configuration_ServiceStationModeFull" text="Komplett" />
         <text name="configuration_ServiceStationWidth" text="Breite" />
         <text name="configuration_ServiceStationLength" text="Länge" />
     </texts>

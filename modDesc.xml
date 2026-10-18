@@ -8,8 +8,7 @@
     </title>
 
     <description>
-        <en><![CDATA[ServiceStation
-Category: Miscellaneous
+        <en><![CDATA[Category: Miscellaneous
 Price: $45,000
 Daily upkeep: $50
 
@@ -22,8 +21,8 @@ Modes:
 - Wash (washing)
 
 Size:
-Width 2–20 meters
-Length 0.5–40 meters 
+Width 2-20 meters
+Length 0.5-40 meters
 
 The settings for price, minimum requirement, and fill rate (% and immediate) can be adjusted in modSettings. AutoDrive is supported.
 
@@ -36,21 +35,18 @@ Changelog 1.0.0.1:
 - Fixed servicing newly attached vehicles inside an active station trigger.
 - Fixed AutoDrive availability and vehicle-specific refueling state.
 - Fixed charging information for multiplayer clients.
-- Added robust settings validation and the missing AutoDrive XML schema entry.
-
-Source code, help and issue reports: https://github.com/BLU3COW/FS25_ServiceStation]]></en>
-        <de><![CDATA[ServiceStation
-Shopkategorie: Diverses
+- Added robust settings validation and the missing AutoDrive XML schema entry.]]></en>
+        <de><![CDATA[Shopkategorie: Diverses
 Preis: 45.000€
 Täglicher Unterhalt: 50€
 
 Einstellbare ServiceStation zum Waschen, Reparieren, Lackieren, Tanken und Laden. 
 
 Modus:
-- Full (Waschen, Reparieren, Lackieren, Tanken und Laden)
+- Komplett (Waschen, Reparieren, Lackieren, Tanken und Laden)
 - Service (Reparieren und Lackieren)
-- Tank (Tanken und Laden)
-- Wash (Waschen)
+- Tanken (Tanken und Laden)
+- Waschen (Waschen)
 
 Größe:
 Breite 2-20 Meter
@@ -67,21 +63,18 @@ Changelog 1.0.0.1:
 - Bedienung neu angehängter Fahrzeuge innerhalb eines aktiven Stations-Triggers korrigiert.
 - AutoDrive-Verfügbarkeit und fahrzeugspezifischen Tankstatus korrigiert.
 - Ladeinformationen für Multiplayer-Clients korrigiert.
-- Robuste Einstellungsprüfung und fehlenden AutoDrive-XML-Schemaeintrag ergänzt.
-
-Quellcode, Hilfe und Fehlermeldungen: https://github.com/BLU3COW/FS25_ServiceStation]]></de>
-        <fr><![CDATA[ServiceStation
-Catégorie: Divers
+- Robuste Einstellungsprüfung und fehlenden AutoDrive-XML-Schemaeintrag ergänzt.]]></de>
+        <fr><![CDATA[Catégorie: Divers
 Prix: 45 000€
 Entretien quotidien: 50€
 
 StationService modulable pour le lavage, les réparations, la peinture, le ravitaillement en carburant et la recharge.  Ses dimensions peuvent être adaptées pour s'intégrer parfaitement à votre cour.
 
 Modes :
-- Full (lavage, réparations, peinture, ravitaillement en carburant et recharge)
-- Service (réparations et peinture)
-- Tank (ravitaillement et recharge)
-- Wash (lavage)
+- Complet (lavage, réparations, peinture, ravitaillement en carburant et recharge)
+- Entretien (réparations et peinture)
+- Ravitaillement (ravitaillement et recharge)
+- Lavage (lavage)
 
 Dimensions :
 Largeur : 2 à 20 mètres
@@ -98,9 +91,7 @@ Changelog 1.0.0.1 :
 - Correction de l'entretien des véhicules nouvellement attelés dans une zone active.
 - Correction de la disponibilité AutoDrive et de l'état de ravitaillement par véhicule.
 - Correction des informations de recharge pour les clients multijoueurs.
-- Ajout d'une validation robuste des paramètres et de l'entrée de schéma XML AutoDrive manquante.
-
-Code source, aide et signalement de problèmes : https://github.com/BLU3COW/FS25_ServiceStation]]></fr>
+- Ajout d'une validation robuste des paramètres et de l'entrée de schéma XML AutoDrive manquante.]]></fr>
     </description>
 
     <iconFilename>icon_ServiceStation.dds</iconFilename>
