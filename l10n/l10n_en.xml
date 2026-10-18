@@ -3,6 +3,10 @@
     <texts>
         <text name="function_ServiceStation" text="Automatic drive-through station" />
         <text name="configuration_ServiceStationMode" text="Mode" />
+        <text name="configuration_ServiceStationModeService" text="Service" />
+        <text name="configuration_ServiceStationModeWash" text="Wash" />
+        <text name="configuration_ServiceStationModeTank" text="Tank" />
+        <text name="configuration_ServiceStationModeFull" text="Full" />
         <text name="configuration_ServiceStationWidth" text="Width" />
         <text name="configuration_ServiceStationLength" text="Length" />
     </texts>

@@ -62,10 +62,10 @@
                     baseWashPrice="10" baseDieselLitersPerSecond="20" baseMethaneUnitsPerSecond="2" baseChargeUnitsPerSecond="0.015">
 
     <ServiceStationModeConfigurations title="$l10n_configuration_ServiceStationMode">
-        <ServiceStationModeConfiguration name="Service" repair="true" repaint="true" saveId="service" />
-        <ServiceStationModeConfiguration name="Wash" wash="true" saveId="wash" />
-        <ServiceStationModeConfiguration name="Tank" diesel="true" electric="true" methane="true" saveId="tank" />
-        <ServiceStationModeConfiguration name="Full" wash="true" repair="true" repaint="true" diesel="true" electric="true" methane="true" isDefault="true" saveId="full" />
+        <ServiceStationModeConfiguration name="$l10n_configuration_ServiceStationModeService" repair="true" repaint="true" saveId="service" />
+        <ServiceStationModeConfiguration name="$l10n_configuration_ServiceStationModeWash" wash="true" saveId="wash" />
+        <ServiceStationModeConfiguration name="$l10n_configuration_ServiceStationModeTank" diesel="true" electric="true" methane="true" saveId="tank" />
+        <ServiceStationModeConfiguration name="$l10n_configuration_ServiceStationModeFull" wash="true" repair="true" repaint="true" diesel="true" electric="true" methane="true" isDefault="true" saveId="full" />
     </ServiceStationModeConfigurations>
 
     <ServiceStationWidthConfigurations title="$l10n_configuration_ServiceStationWidth">
